@@ -1,8 +1,10 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 /bin/
 /lib/fastJSON/bin/
-/backend/
+/lib/fastJSON/fastJSON/bin/
 /publish/
+
+/backend/
 
 obj
 *.suo
