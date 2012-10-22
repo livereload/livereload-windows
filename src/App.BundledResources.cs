@@ -9,14 +9,17 @@ namespace LiveReload
 {
     public partial class App
     {
+        private string bundledRubyDir;
+
         private void extractBundledResources()
         {
             SevenZipExtractor.SetLibraryPath(Path.Combine(resourcesDir, "7z.dll"));
 
             extractBundledResourcesFromFile("backend.7z");
+            bundledRubyDir = extractBundledResourcesFromFile("ruby-1.9.3.7z");
         }
 
-        private void extractBundledResourcesFromFile(string filename)
+        private string extractBundledResourcesFromFile(string filename)
         {
             string sourceFile     = Path.Combine(resourcesDir, "bundled", filename);
             string timestampFile  = Path.Combine(extractedResourcesDir, Path.ChangeExtension(filename, "timestamp"));
@@ -43,6 +46,8 @@ namespace LiveReload
 
                 File.WriteAllBytes(timestampFile, new byte[0]);
             }
+
+            return destinationDir;
         }
     }
 }

@@ -142,6 +142,9 @@
     <Content Include="res\bundled\backend.7z">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="res\bundled\ruby-1.9.3.7z">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\LiveReload.ico" />

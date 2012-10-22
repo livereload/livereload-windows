@@ -124,11 +124,17 @@ namespace LiveReload
                                      new Dictionary<string, object> {
                                         {"resourcesDir", resourcesDir},
                                         {"appDataDir",   appDataDir},
+                                        {"rubies",       new object[] {
+                                            new Dictionary<string, object> {
+                                                {"version", "1.9.3"},
+                                                {"path",    bundledRubyDir}
+                                            }
+                                        }},
                                         {"logDir",       logDir},
                                         {"version",      version},
                                         {"build",        build},
                                         {"platform",     platform}
-            } };
+            }};
 
             string response = fastJSON.JSON.Instance.ToJSON(foo);
             Console.WriteLine(response);

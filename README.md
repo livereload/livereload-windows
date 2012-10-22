@@ -6,7 +6,15 @@ LiveReload for Windows
 
 ## Building
 
+Prerequisites:
+
+* Git installed with mingw tools (rm, curl, etc) added to PATH
+* Microsoft Visual Studio 2010
+
+Process:
+
 * Run bundle-backend.cmd
+* Run bundle-ruby.cmd
 * Perform the build in Visual Studio
 
 
