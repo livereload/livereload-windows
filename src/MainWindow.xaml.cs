@@ -49,8 +49,7 @@ namespace LiveReload
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
-            MainWindowHideEvent();
+            App.Current.Shutdown();
         }
         public void updateTreeView(List<ProjectData> projectsList_)
         {
@@ -158,6 +157,12 @@ namespace LiveReload
         private void buttonVersion_Click(object sender, RoutedEventArgs e)
         {
             ((App)App.Current).OpenExplorerWithLog();
+        }
+
+        private void MetroWindow_StateChanged(object sender, EventArgs e)
+        {
+            this.WindowState = System.Windows.WindowState.Normal;
+            MainWindowHideEvent();
         }
     }
 }

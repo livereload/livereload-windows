@@ -178,16 +178,17 @@ namespace LiveReload
         private void HandleMainWindowShowEvent()
         {
             window.Show();
+            window.Activate();
         }
         private void HandleMainWindowToggleEvent()
         {
             if (window.IsVisible)
             {
-                window.Hide();
+                HandleMainWindowHideEvent();
             }
             else
             {
-                window.Show();
+                HandleMainWindowShowEvent();
             }
         }
 
