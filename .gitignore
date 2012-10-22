@@ -3,6 +3,7 @@
 /lib/fastJSON/bin/
 /backend/
 /publish/
+*.tgz
 
 obj
 *.suo
