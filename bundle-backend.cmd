@@ -1,11 +1,13 @@
+set VER=0.6.0
+
 rd /s /q backend
 rd /s /q package
-del /q /f livereload-0.2.0.tar
+del /q /f livereload-%VER%.tar
 
-: "%~dp0res/curl" -O http://download.livereload.com/npm/livereload-0.2.0.tgz
-"%~dp0res/7za" x livereload-0.2.0.tgz
-"%~dp0res/7za" x livereload-0.2.0.tar
-del livereload-0.2.0.tar
+"%~dp0res/curl" -O http://download.livereload.com/npm/livereload-%VER%.tgz
+"%~dp0res/7za" x livereload-%VER%.tgz
+"%~dp0res/7za" x livereload-%VER%.tar
+del livereload-%VER%.tar
 ren package backend
 
 del /q res\bundled\backend.7z
