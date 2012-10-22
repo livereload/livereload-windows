@@ -109,6 +109,18 @@ namespace LiveReload
                 }
                 window.updateTreeView(projectsList);
             }
+            else if (messageType == "app.displayCriticalError")
+            {
+                var arg = (Dictionary<string, object>) b[1];
+
+                var title  = (string)arg["title"];
+                var text   = (string)arg["text"];
+                var url    = (string)arg["url"];
+                var button = (string)arg["button"];
+
+                MessageBox.Show(text, title, MessageBoxButton.OK, MessageBoxImage.Error);
+                App.Current.Shutdown();
+            }
         }
 
         private void HandleNodeStartedEvent()
