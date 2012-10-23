@@ -26,9 +26,9 @@ namespace LiveReload
         private List<ProjectData> projectsList;
 
         private string selectedID = null;
-        public bool isUrlFieldChangedByUser          = false;
-        public bool isUrlFieldChangedProgramatically = false;
-        private bool isTreeViewUpdateInProgress      = false;
+        private bool isUrlFieldChangedByUser          = false;
+        private bool isUrlFieldChangedProgramatically = false;
+        private bool isTreeViewUpdateInProgress       = false;
 
         public event Action<string> ProjectAddEvent;
         public event Action<string> ProjectRemoveEvent;
