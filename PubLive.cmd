@@ -1,0 +1,3 @@
+@call PubLiveBuild
+@call PubLiveUpload
+

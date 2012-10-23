@@ -5,6 +5,8 @@
 /publish/
 *.tgz
 
+/PubConfig.cmd
+
 obj
 *.suo
 *.csproj.user
