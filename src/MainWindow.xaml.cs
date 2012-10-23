@@ -65,15 +65,15 @@ namespace LiveReload
 
         private void treeViewProjects_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (treeViewProjects.SelectedItem != null)
+            ProjectData project = SelectedProject();
+            if (project != null)
             {
-                int selectedIndex = treeViewProjects.Items.IndexOf(treeViewProjects.SelectedItem);
-                textBlockProjectName.Text = projectsList[selectedIndex].name;
-                textBlockProjectPath.Text = projectsList[selectedIndex].path;
+                textBlockProjectName.Text = project.name;
+                textBlockProjectPath.Text = project.path;
                 checkBoxCompile.IsEnabled = true;
                 checkBoxRunCustom.IsEnabled = true;
-                checkBoxCompile.IsChecked = projectsList[selectedIndex].compilationEnabled;
-                selectedID = projectsList[selectedIndex].id;
+                checkBoxCompile.IsChecked = project.compilationEnabled;
+                selectedID = project.id;
             }
             else
             {
@@ -96,31 +96,31 @@ namespace LiveReload
             }
         }
 
-        private int SelectedIndex()
+        private ProjectData SelectedProject()
         {
             var item = treeViewProjects.SelectedItem;
-            if (item != null)
+            if (item == null)
             {
-                return treeViewProjects.Items.IndexOf(item);
+                return null;
             }
             else
             {
-                return -1;
+                return projectsList[treeViewProjects.Items.IndexOf(item)];
             }
         }
 
         private void buttonProjectRemove_Click(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = SelectedIndex();
-            if (selectedIndex != -1)
+            ProjectData project = SelectedProject();
+            if (project != null)
             {
-                ProjectRemoveEvent(projectsList[selectedIndex].id);
+                ProjectRemoveEvent(project.id);
             }
         }
 
         private void checkBoxCompile_Click(object sender, RoutedEventArgs e)
         {
-            ProjectData project = projectsList[SelectedIndex()];
+            ProjectData project = SelectedProject();
             if (checkBoxCompile.IsChecked == true)
             {
                 ProjectPropertyChangedEvent(project.id,"compilationEnabled",true);
