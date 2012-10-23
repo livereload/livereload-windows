@@ -202,5 +202,9 @@ namespace LiveReload
             isUrlFieldChangedByUser = false;
             ProjectPropertyChangedEvent(selectedID, "url", textBoxUrl.Text);
         }
+        private void buttonSupport_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(@"http://feedback.livereload.com/");
+        }
     }
 }

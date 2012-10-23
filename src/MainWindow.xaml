@@ -17,6 +17,7 @@
     </Window.Resources>
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
+            <Button Name="buttonSupport" Content="support" Click="buttonSupport_Click" ToolTip="Support" />
             <Button Name="buttonVersion" Content="version" Click="buttonVersion_Click" ToolTip="Reveal log" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.WindowCommands>
