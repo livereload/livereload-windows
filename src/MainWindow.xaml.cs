@@ -99,14 +99,7 @@ namespace LiveReload
         private ProjectData SelectedProject()
         {
             var item = treeViewProjects.SelectedItem;
-            if (item == null)
-            {
-                return null;
-            }
-            else
-            {
-                return projectsList[treeViewProjects.Items.IndexOf(item)];
-            }
+            return (item == null) ? null : projectsList[treeViewProjects.Items.IndexOf(item)];
         }
 
         private void buttonProjectRemove_Click(object sender, RoutedEventArgs e)
