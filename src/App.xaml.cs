@@ -74,6 +74,7 @@ namespace LiveReload
             window.ProjectPropertyChangedEvent += HandleProjectPropertyChangedEvent;
             window.MainWindowHideEvent         += HandleMainWindowHideEvent;
             window.buttonVersion.Content = "v" + Version;
+            window.gridProgress.Visibility = Visibility.Visible;
             window.Show();
 
             trayIcon = new TrayIconController();
@@ -86,6 +87,8 @@ namespace LiveReload
         }
         private void Application_ContinueStartupAfterExtraction()
         {
+            window.gridProgress.Visibility = Visibility.Hidden;
+            
             nodeFoo = new NodeRPC(Dispatcher.CurrentDispatcher, resourcesDir, backendDir, logWriter);
             nodeFoo.NodeMessageEvent += HandleNodeMessageEvent;
             nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;

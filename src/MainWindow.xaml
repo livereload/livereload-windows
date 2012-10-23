@@ -35,7 +35,7 @@
             <Rectangle Name="rectStart" Fill="White" Opacity="0.90" Grid.RowSpan="3" />
             <StackPanel Grid.Row="1" Name="stackPanelStart" >
                 <Controls:ProgressRing Name="progressStart" IsActive="True" />
-                <TextBlock Name="textProgress" Text="Starting LiveReload..." TextAlignment="Center" />
+                <TextBlock Name="textProgress" Text="Extracting new resources..." TextAlignment="Center" Margin="8"/>
             </StackPanel>
         </Grid>
 
