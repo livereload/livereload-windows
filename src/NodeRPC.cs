@@ -17,7 +17,7 @@ namespace LiveReload
         private StreamReader reader;
         private StreamReader stderrReader;
         private Dispatcher dispatcher = App.Current.Dispatcher;
-        private string resourcesDir;
+        private string nodeDir;
         private string backendDir;
         private StreamWriter logWriter;
 
@@ -25,9 +25,9 @@ namespace LiveReload
         public event Action         NodeCrash;
         public event Action<string> NodeMessageEvent;
 
-        public NodeRPC(string resourcesDir_, string backendDir_, StreamWriter logWriter_)
+        public NodeRPC(string nodeDir_, string backendDir_, StreamWriter logWriter_)
         {
-            resourcesDir = resourcesDir_;
+            nodeDir = nodeDir_;
             backendDir = backendDir_;
             logWriter = logWriter_;
         }
@@ -41,7 +41,7 @@ namespace LiveReload
 
         private void NodeStart()
         {
-            process.StartInfo.FileName = Path.Combine(resourcesDir, @"LiveReloadNodejs.exe");
+            process.StartInfo.FileName = Path.Combine(nodeDir, @"LiveReloadNodejs.exe");
             process.StartInfo.Arguments = "\"" + (Path.Combine(backendDir, "bin/livereload.js") + "\" " + "rpc server");
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;

@@ -88,8 +88,8 @@ namespace LiveReload
         private void Application_ContinueStartupAfterExtraction()
         {
             window.gridProgress.Visibility = Visibility.Hidden;
-            
-            nodeFoo = new NodeRPC(resourcesDir, backendDir, logWriter);
+
+            nodeFoo = new NodeRPC(bundledNodeDir, backendDir, logWriter);
             nodeFoo.NodeMessageEvent += HandleNodeMessageEvent;
             nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;
             nodeFoo.NodeCrash += HandleNodeCrash;

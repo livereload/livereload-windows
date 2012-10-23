@@ -13,6 +13,7 @@ namespace LiveReload
     public partial class App
     {
         private string bundledRubyDir;
+        private string bundledNodeDir;
 
         private void BeginExtractBundledResources(Action Callback)
         {
@@ -22,6 +23,7 @@ namespace LiveReload
 
                     extractBundledResourcesFromFile("backend.7z");
                     bundledRubyDir = extractBundledResourcesFromFile("ruby-1.9.3.7z");
+                    bundledNodeDir = extractBundledResourcesFromFile("node-0.8.12.7z");
 
                     App.Current.Dispatcher.Invoke(DispatcherPriority.Normal,
                         (Action)(() => { Callback();})
