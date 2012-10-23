@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using System.IO;
 using SevenZip;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace LiveReload
 {
@@ -11,12 +14,22 @@ namespace LiveReload
     {
         private string bundledRubyDir;
 
-        private void extractBundledResources()
+        private void BeginExtractBundledResources(Action Callback)
         {
-            SevenZipExtractor.SetLibraryPath(Path.Combine(resourcesDir, "7z.dll"));
+            Thread extractThread = new Thread(new ThreadStart (
+                (Action)(() => {
+                    SevenZipExtractor.SetLibraryPath(Path.Combine(resourcesDir, "7z.dll"));
 
-            extractBundledResourcesFromFile("backend.7z");
-            bundledRubyDir = extractBundledResourcesFromFile("ruby-1.9.3.7z");
+                    extractBundledResourcesFromFile("backend.7z");
+                    bundledRubyDir = extractBundledResourcesFromFile("ruby-1.9.3.7z");
+
+                    App.Current.Dispatcher.Invoke(DispatcherPriority.Normal,
+                        (Action)(() => { Callback();})
+                    );
+                })
+            ));
+            extractThread.IsBackground = true; // need for thread to close at application exit
+            extractThread.Start();
         }
 
         private string extractBundledResourcesFromFile(string filename)
@@ -40,7 +53,6 @@ namespace LiveReload
                 var extractor = new SevenZipExtractor(sourceFile);
 
                 // we typically have a properly-named root dir inside .7z itself, so extracting into destinationDir doesn't work
-                // TODO: make this an async call, show progress info, delay backend launching
                 extractor.ExtractArchive(extractedResourcesDir);
                 extractor.Dispose();
 

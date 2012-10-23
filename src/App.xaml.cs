@@ -82,8 +82,7 @@ namespace LiveReload
             trayIcon.MainWindowToggleEvent  += HandleMainWindowToggleEvent;
 
             // has to be done before launching Node
-            extractBundledResources();
-            Application_ContinueStartupAfterExtraction();
+            BeginExtractBundledResources(Application_ContinueStartupAfterExtraction);
         }
         private void Application_ContinueStartupAfterExtraction()
         {
