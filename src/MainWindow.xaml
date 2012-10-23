@@ -67,7 +67,6 @@
         <TextBlock Height="32" Margin="83,334,184,0" Name="textBlock4" VerticalAlignment="Top" TextWrapping="Wrap" FontSize="10" Grid.Column="1">
             CoffeeScript, Eco, HAML, IcedCoffeeScript, Jade, LESS, SASS, Compass, Slim, Stylus
         </TextBlock>
-        <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="6,406,0,0" Name="textBoxNodeResult" VerticalAlignment="Top" Width="448" IsReadOnly="True" Visibility="Hidden" />
         <TextBlock Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="130,71,0,0" Name="textBlockProjectName" Text="-" VerticalAlignment="Top" Width="324" FontWeight="Bold" FontSize="14" />
         <TextBlock Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="130,100,0,0" Name="textBlockProjectPath" Text="-" VerticalAlignment="Top" Width="324" />
         <Grid Name="gridProjects" Background="LightGray" >

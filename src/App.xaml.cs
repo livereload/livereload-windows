@@ -96,8 +96,6 @@ namespace LiveReload
 
         private void HandleNodeMessageEvent(string nodeLine)
         {
-            window.DisplayNodeResult(nodeLine);
-
             var b = (object[])fastJSON.JSON.Instance.ToObject(nodeLine);
             string messageType = (string) b[0];
             if (messageType == "update")
@@ -131,9 +129,6 @@ namespace LiveReload
             string version = Version;
             string build = "beta";
             string platform = "windows";
-            Console.WriteLine(resourcesDir);
-            Console.WriteLine(appDataDir);
-            Console.WriteLine(logDir);
 
             var foo = new object[] { "app.init",
                                      new Dictionary<string, object> {
@@ -152,7 +147,6 @@ namespace LiveReload
             }};
 
             string response = fastJSON.JSON.Instance.ToJSON(foo);
-            Console.WriteLine(response);
             nodeFoo.NodeMessageSend(response);
         }
 

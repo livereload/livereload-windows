@@ -41,12 +41,6 @@ namespace LiveReload
             Process.Start(e.Uri.ToString());
         }
 
-        public void DisplayNodeResult(string nodeLine)
-        {
-            textBoxNodeResult.Text = nodeLine;
-            Console.WriteLine(nodeLine);
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             App.Current.Shutdown();

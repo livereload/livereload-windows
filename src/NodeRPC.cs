@@ -70,8 +70,12 @@ namespace LiveReload
             while (!reader.EndOfStream)
             {
                 string nodeLine = reader.ReadLine();
+
                 logWriter.WriteLine("INCOMING: " + nodeLine);
                 logWriter.Flush();
+                Console.WriteLine("INCOMING: " + nodeLine);
+                Console.WriteLine(fastJSON.JSON.Instance.Beautify(nodeLine));
+
                 if (nodeLine[0] == '[')
                 {
                     dispatcher.Invoke(DispatcherPriority.Normal,
@@ -98,8 +102,8 @@ namespace LiveReload
         {
             logWriter.WriteLine("OUTGOING: " + message);
             logWriter.Flush();
-
             Console.WriteLine("OUTGOING: " + message);
+            Console.WriteLine(fastJSON.JSON.Instance.Beautify(message));
 
             writer.WriteLine(message);
             writer.Flush();
