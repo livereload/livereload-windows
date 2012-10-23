@@ -68,11 +68,15 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>LiveReload.EntryPoint</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\MahApps.Metro\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="SevenZipSharp">
       <HintPath>lib\SevenZipSharp\SevenZipSharp.dll</HintPath>
     </Reference>
@@ -95,6 +99,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\App.BundledResources.cs" />
+    <Compile Include="src\App.SingleInstance.cs" />
     <Compile Include="src\TrayIconController.cs" />
     <Page Include="img\icons.xaml">
       <Generator>MSBuild:Compile</Generator>

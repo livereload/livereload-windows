@@ -192,7 +192,7 @@ namespace LiveReload
         {
             window.Hide();
         }
-        private void HandleMainWindowShowEvent()
+        public void HandleMainWindowShowEvent()
         {
             window.Show();
             window.Activate();
