@@ -26,6 +26,8 @@ namespace LiveReload
         private List<ProjectData> projectsList;
 
         private string selectedID = null;
+        public bool isUrlFieldChangedByUser          = false;
+        public bool isUrlFieldChangedProgramatically = false;
 
         public event Action<string> ProjectAddEvent;
         public event Action<string> ProjectRemoveEvent;
@@ -49,7 +51,6 @@ namespace LiveReload
         {
             projectsList = projectsList_;
 
-            treeViewProjects.IsEnabled = false;
             treeViewProjects.Items.Clear();
             TreeViewItem oldSelection = null;
             foreach (ProjectData t in projectsList)
@@ -63,7 +64,6 @@ namespace LiveReload
                     oldSelection = newChild;
                 }
             }
-            treeViewProjects.IsEnabled = true;
             if (oldSelection != null)
             {
                 SelectItem(oldSelection);
@@ -72,13 +72,21 @@ namespace LiveReload
 
         private void treeViewProjects_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (!treeViewProjects.IsEnabled) return;
-
             ProjectData project = SelectedProject();
             if (project != null)
             {
                 textBlockProjectName.Text = project.name;
                 textBlockProjectPath.Text = project.path;
+                textBoxSnippet.Text = project.snippet;
+                textBoxSnippet.IsEnabled = true;
+                textBoxUrl.IsReadOnly = false;
+                textBoxUrl.IsEnabled = true;
+                if (!isUrlFieldChangedByUser)
+                {
+                    isUrlFieldChangedProgramatically = true;
+                    textBoxUrl.Text = project.url;
+                    isUrlFieldChangedProgramatically = false;
+                }
                 checkBoxCompile.IsEnabled = true;
                 checkBoxRunCustom.IsEnabled = true;
                 checkBoxCompile.IsChecked = project.compilationEnabled;
@@ -88,6 +96,16 @@ namespace LiveReload
             {
                 textBlockProjectName.Text = "-";
                 textBlockProjectPath.Text = "-";
+                textBoxSnippet.Text      = null;
+                textBoxSnippet.IsEnabled = false;
+                textBoxUrl.IsReadOnly = true;
+                textBoxUrl.IsEnabled = false;
+                if (!isUrlFieldChangedByUser)
+                {
+                    isUrlFieldChangedProgramatically = true;
+                    textBoxUrl.Text = null;
+                    isUrlFieldChangedProgramatically = false;
+                }
                 checkBoxCompile.IsEnabled = false;
                 checkBoxRunCustom.IsEnabled = false;
                 checkBoxCompile.IsChecked = false;
@@ -159,6 +177,19 @@ namespace LiveReload
         {
             this.WindowState = System.Windows.WindowState.Normal;
             MainWindowHideEvent();
+        }
+
+        private void textBoxUrl_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (isUrlFieldChangedProgramatically)
+                return;
+
+            isUrlFieldChangedByUser = true;
+            ProjectPropertyChangedEvent(selectedID, "url", textBoxUrl.Text);
+        }
+        private void textBoxUrl_LostFocus(object sender, RoutedEventArgs e)
+        {
+            isUrlFieldChangedByUser = false;
         }
     }
 }
