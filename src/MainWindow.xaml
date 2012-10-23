@@ -108,5 +108,6 @@
             </Button>
             <TreeView Grid.Row="0" Grid.Column="0" Name="treeViewProjects" SelectedItemChanged="treeViewProjects_SelectedItemChanged" BorderThickness="0" Grid.ColumnSpan="5" Background="LightGray" />
         </Grid>
+        <TextBlock Grid.Column="1" Height="23" Margin="45,0,12,6" Name="textBlockStatus" VerticalAlignment="Bottom" />
     </Grid>
 </Controls:MetroWindow>
