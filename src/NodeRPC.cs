@@ -16,7 +16,7 @@ namespace LiveReload
         private StreamWriter writer;
         private StreamReader reader;
         private StreamReader stderrReader;
-        private Dispatcher dispatcher;
+        private Dispatcher dispatcher = App.Current.Dispatcher;
         private string resourcesDir;
         private string backendDir;
         private StreamWriter logWriter;
@@ -25,12 +25,11 @@ namespace LiveReload
         public event Action         NodeCrash;
         public event Action<string> NodeMessageEvent;
 
-        public NodeRPC(Dispatcher mainDispatcher, string resourcesDir_, string backendDir_, StreamWriter logWriter_)
+        public NodeRPC(string resourcesDir_, string backendDir_, StreamWriter logWriter_)
         {
             resourcesDir = resourcesDir_;
             backendDir = backendDir_;
             logWriter = logWriter_;
-            dispatcher = mainDispatcher;
         }
 
         public void Start()
@@ -57,7 +56,8 @@ namespace LiveReload
             stderrReader = process.StandardError;
 
             dispatcher.Invoke(DispatcherPriority.Normal,
-                (Action)(() => { NodeStartedEvent(); }));
+                (Action)(() => { NodeStartedEvent(); })
+            );
 
             Thread stderrThread = new Thread(new ThreadStart(CopyNodeStderrToLog));
             stderrThread.IsBackground = true;
@@ -75,11 +75,13 @@ namespace LiveReload
                 if (nodeLine[0] == '[')
                 {
                     dispatcher.Invoke(DispatcherPriority.Normal,
-                        (Action)(() => { NodeMessageEvent(nodeLine); }));
+                        (Action)(() => { NodeMessageEvent(nodeLine); })
+                    );
                 }
             }
             dispatcher.Invoke(DispatcherPriority.Normal,
-                (Action)(() => { NodeCrash(); }));
+                (Action)(() => { NodeCrash(); })
+            );
         }
 
         private void CopyNodeStderrToLog()

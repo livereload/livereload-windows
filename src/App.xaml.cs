@@ -89,7 +89,7 @@ namespace LiveReload
         {
             window.gridProgress.Visibility = Visibility.Hidden;
             
-            nodeFoo = new NodeRPC(Dispatcher.CurrentDispatcher, resourcesDir, backendDir, logWriter);
+            nodeFoo = new NodeRPC(resourcesDir, backendDir, logWriter);
             nodeFoo.NodeMessageEvent += HandleNodeMessageEvent;
             nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;
             nodeFoo.NodeCrash += HandleNodeCrash;
