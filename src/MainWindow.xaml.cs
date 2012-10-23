@@ -49,7 +49,9 @@ namespace LiveReload
         {
             projectsList = projectsList_;
 
+            treeViewProjects.IsEnabled = false;
             treeViewProjects.Items.Clear();
+            TreeViewItem oldSelection = null;
             foreach (ProjectData t in projectsList)
             {
                 TreeViewItem newChild = new TreeViewItem();
@@ -58,13 +60,20 @@ namespace LiveReload
                 treeViewProjects.Items.Add(newChild);
                 if (t.id == selectedID)
                 {
-                    SelectItem(newChild);
+                    oldSelection = newChild;
                 }
+            }
+            treeViewProjects.IsEnabled = true;
+            if (oldSelection != null)
+            {
+                SelectItem(oldSelection);
             }
         }
 
         private void treeViewProjects_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            if (!treeViewProjects.IsEnabled) return;
+
             ProjectData project = SelectedProject();
             if (project != null)
             {
