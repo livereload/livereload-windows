@@ -28,6 +28,7 @@ namespace LiveReload
         private string selectedID = null;
         public bool isUrlFieldChangedByUser          = false;
         public bool isUrlFieldChangedProgramatically = false;
+        private bool isTreeViewUpdateInProgress      = false;
 
         public event Action<string> ProjectAddEvent;
         public event Action<string> ProjectRemoveEvent;
@@ -51,7 +52,8 @@ namespace LiveReload
         {
             projectsList = projectsList_;
 
-            treeViewProjects.Items.Clear();
+            isTreeViewUpdateInProgress = true;
+            treeViewProjects.Items.Clear(); // will react on it later if necessary
             TreeViewItem oldSelection = null;
             foreach (ProjectData t in projectsList)
             {
@@ -64,14 +66,22 @@ namespace LiveReload
                     oldSelection = newChild;
                 }
             }
+            isTreeViewUpdateInProgress = false;
             if (oldSelection != null)
             {
                 SelectItem(oldSelection);
+            }
+            else
+            {
+                treeViewProjects_SelectedItemChanged(null, null); // need to reset view
             }
         }
 
         private void treeViewProjects_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            if (isTreeViewUpdateInProgress)
+                return;
+
             ProjectData project = SelectedProject();
             if (project != null)
             {
@@ -190,6 +200,7 @@ namespace LiveReload
         private void textBoxUrl_LostFocus(object sender, RoutedEventArgs e)
         {
             isUrlFieldChangedByUser = false;
+            ProjectPropertyChangedEvent(selectedID, "url", textBoxUrl.Text);
         }
     }
 }
