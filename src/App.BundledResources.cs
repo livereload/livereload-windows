@@ -18,7 +18,7 @@ namespace LiveReload
         {
             Thread extractThread = new Thread(new ThreadStart (
                 (Action)(() => {
-                    SevenZipExtractor.SetLibraryPath(Path.Combine(resourcesDir, "7z.dll"));
+                    SevenZipExtractor.SetLibraryPath(Path.Combine(resourcesDir, "7zxa.dll"));
 
                     extractBundledResourcesFromFile("backend.7z");
                     bundledRubyDir = extractBundledResourcesFromFile("ruby-1.9.3.7z");
