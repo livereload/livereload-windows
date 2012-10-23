@@ -304,13 +304,17 @@ namespace LiveReload
         public string name { get; set; }
         public string path { get; set; }
         public bool compilationEnabled { get; set; }
+        public string url { get; set; }
+        public string snippet { get; set; }
 
         public ProjectData(Dictionary<string,object> dic)
         {
-            id   = (string) dic["id"];
-            name = (string) dic["name"];
-            path = (string) dic["path"];
+            id      = (string) dic["id"];
+            name    = (string) dic["name"];
+            path    = (string) dic["path"];
             compilationEnabled = (bool) dic["compilationEnabled"];
+            url     = (string) dic["url"];
+            snippet = (string) dic["snippet"];
         }
     }
 }
