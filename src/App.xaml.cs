@@ -68,15 +68,6 @@ namespace LiveReload
             logWriter.WriteLine("  logDir        = \"" + logDir + "\"");
             logWriter.Flush();
 
-            // has to be done before launching Node
-            extractBundledResources();
-
-            nodeFoo = new NodeRPC(Dispatcher.CurrentDispatcher, resourcesDir, backendDir, logWriter);
-            nodeFoo.NodeMessageEvent += HandleNodeMessageEvent;
-            nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;
-            nodeFoo.NodeCrash        += HandleNodeCrash;
-            nodeFoo.Start();
-
             window = new MainWindow();
             window.ProjectAddEvent             += HandleProjectAddEvent;
             window.ProjectRemoveEvent          += HandleProjectRemoveEvent;
@@ -89,6 +80,18 @@ namespace LiveReload
             trayIcon.MainWindowHideEvent += HandleMainWindowHideEvent;
             trayIcon.MainWindowShowEvent += HandleMainWindowShowEvent;
             trayIcon.MainWindowToggleEvent  += HandleMainWindowToggleEvent;
+
+            // has to be done before launching Node
+            extractBundledResources();
+            Application_ContinueStartupAfterExtraction();
+        }
+        private void Application_ContinueStartupAfterExtraction()
+        {
+            nodeFoo = new NodeRPC(Dispatcher.CurrentDispatcher, resourcesDir, backendDir, logWriter);
+            nodeFoo.NodeMessageEvent += HandleNodeMessageEvent;
+            nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;
+            nodeFoo.NodeCrash += HandleNodeCrash;
+            nodeFoo.Start();
         }
 
         private void HandleNodeMessageEvent(string nodeLine)
