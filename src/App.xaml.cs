@@ -21,7 +21,6 @@ namespace LiveReload
         private string baseDir, logDir, resourcesDir, appDataDir;
         private string localAppDataDir;
         private string extractedResourcesDir;
-        private string backendDir;
         private StreamWriter logWriter;
         private TrayIconController trayIcon;
         private string logFile;
@@ -53,7 +52,6 @@ namespace LiveReload
             resourcesDir          = Path.Combine(baseDir, @"res");
             logDir                = Path.Combine(localAppDataDir, @"Logs");
             extractedResourcesDir = Path.Combine(localAppDataDir, @"Bundled");
-            backendDir            = Path.Combine(extractedResourcesDir, @"backend");
 
             Directory.CreateDirectory(appDataDir);
             Directory.CreateDirectory(logDir);
@@ -89,7 +87,7 @@ namespace LiveReload
         {
             window.gridProgress.Visibility = Visibility.Hidden;
 
-            nodeFoo = new NodeRPC(bundledNodeDir, backendDir, logWriter);
+            nodeFoo = new NodeRPC(bundledNodeDir, bundledBackendDir, logWriter);
             nodeFoo.NodeMessageEvent += HandleNodeMessageEvent;
             nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;
             nodeFoo.NodeCrash += HandleNodeCrash;
