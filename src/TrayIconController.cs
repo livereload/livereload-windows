@@ -12,7 +12,7 @@ namespace LiveReload
 {
     class TrayIconController
     {
-        private System.Windows.Forms.NotifyIcon myNotifyIcon;
+        private NotifyIcon myNotifyIcon;
         private ContextMenu contextMenuTray = new ContextMenu();
 
         public event Action MainWindowHideEvent;
@@ -34,11 +34,11 @@ namespace LiveReload
             Uri iconUri = new Uri("pack://application:,,,/img/LiveReload.ico", UriKind.RelativeOrAbsolute);
             System.IO.Stream iconStream = System.Windows.Application.GetResourceStream(iconUri).Stream;
 
-            System.Windows.Forms.NotifyIcon icon = new System.Windows.Forms.NotifyIcon();
+            //NotifyIcon icon = new NotifyIcon();
 
-            myNotifyIcon = new System.Windows.Forms.NotifyIcon();
-            myNotifyIcon.Icon = new System.Drawing.Icon(iconStream);
-            myNotifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(MyNotifyIcon_MouseClick);
+            myNotifyIcon = new NotifyIcon();
+            myNotifyIcon.Icon = new Icon(iconStream);
+            myNotifyIcon.MouseClick += new MouseEventHandler(MyNotifyIcon_MouseClick);
             myNotifyIcon.ContextMenu = contextMenuTray;
             myNotifyIcon.Visible = true;
         }
@@ -57,7 +57,7 @@ namespace LiveReload
             System.Windows.Application.Current.Shutdown();
         }
 
-        private void MyNotifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void MyNotifyIcon_MouseClick(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
