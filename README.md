@@ -8,7 +8,6 @@ LiveReload for Windows
 
 Prerequisites:
 
-* Git installed with mingw tools (rm, curl, etc) added to PATH
 * Microsoft Visual Studio 2010
 
 Process:
