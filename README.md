@@ -17,6 +17,19 @@ Process:
 * Perform the build in Visual Studio
 
 
+## Overriding the backend path
+
+You can specify an alternative backend path to avoid going through the lengthy packaging and extraction process on every backend change.
+
+In Visual Studio, open the project properties, switch to Debug tab and specify the following command-line argument:
+
+    -LRBackendOverride c:\path\to\livereload-cli
+
+When you run, Visual Studio will give a warning that command-line arguments will not be passed to secured applications; however, for some reason, it works anyway (at least on Windows XP). You can turn off "Enable ClickOnce security settings" on Security tab to make the warning go away.
+
+Note that command-line arguments are widely reported to not work with ClickOnce applications, however I didn't have any problems so far; passing arguments to the compiled exe file works as expected.
+
+
 ## Bundled Ruby
 
 We use 7z archive of Ruby downloaded via http://rubyinstaller.org/.

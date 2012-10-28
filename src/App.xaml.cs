@@ -24,6 +24,7 @@ namespace LiveReload
         private StreamWriter logWriter;
         private TrayIconController trayIcon;
         private string logFile;
+        private CommandLineOptions options;
 
         public static string Version
         {
@@ -66,6 +67,17 @@ namespace LiveReload
             logWriter.WriteLine("  logDir        = \"" + logDir + "\"");
             logWriter.Flush();
 
+            try
+            {
+                options = CommandLineOptions.Parse(e.Args);
+            }
+            catch (CommandLineArgException err)
+            {
+                DisplayCommandLineError(err.Message);
+                Shutdown();
+                return;
+            }
+
             window = new MainWindow();
             window.ProjectAddEvent             += HandleProjectAddEvent;
             window.ProjectRemoveEvent          += HandleProjectRemoveEvent;
@@ -85,6 +97,12 @@ namespace LiveReload
         }
         private void Application_ContinueStartupAfterExtraction()
         {
+            if (options.LRBackendOverride != null)
+            {
+                bundledBackendDir = options.LRBackendOverride;
+                logWriter.WriteLine("LRBackendOverride = \"" + options.LRBackendOverride + "\"");
+            }
+
             window.gridProgress.Visibility = Visibility.Hidden;
 
             nodeFoo = new NodeRPC(bundledNodeDir, bundledBackendDir, logWriter);
@@ -234,7 +252,11 @@ namespace LiveReload
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            trayIcon.Dispose();
+            if (trayIcon != null)
+            {
+                trayIcon.Dispose();
+                trayIcon = null;
+            }
             logWriter.WriteLine("LiveReload says bye.");
             logWriter.Flush();
         }
