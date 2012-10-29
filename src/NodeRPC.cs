@@ -108,5 +108,10 @@ namespace LiveReload
             writer.WriteLine(message);
             writer.Flush();
         }
+
+        public void Send(string command, object arg)
+        {
+            NodeMessageSend(fastJSON.JSON.Instance.ToJSON(new object[] { command, arg }));
+        }
     }
 }

@@ -101,6 +101,8 @@
     <Compile Include="src\App.BundledResources.cs" />
     <Compile Include="src\App.SingleInstance.cs" />
     <Compile Include="src\App.CommandLineArgs.cs" />
+    <Compile Include="src\ObjectRPC.WPF.cs" />
+    <Compile Include="src\ObjectRPC.cs" />
     <Compile Include="src\TrayIconController.cs" />
     <Page Include="img\icons.xaml">
       <Generator>MSBuild:Compile</Generator>

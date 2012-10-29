@@ -18,6 +18,7 @@ namespace LiveReload
     {
         private MainWindow window;
         private NodeRPC nodeFoo;
+        private ObjectRPC.RootEntity rpcRoot;
         private string baseDir, logDir, resourcesDir, appDataDir;
         private string localAppDataDir;
         private string extractedResourcesDir;
@@ -110,6 +111,13 @@ namespace LiveReload
             nodeFoo.NodeStartedEvent += HandleNodeStartedEvent;
             nodeFoo.NodeCrash += HandleNodeCrash;
             nodeFoo.Start();
+
+            rpcRoot = new ObjectRPC.RootEntity();
+            ObjectRPC.WPF.UIFacets.Register(rpcRoot);
+            rpcRoot.OutgoingUpdate += (payload => nodeFoo.Send("rpc", payload));
+
+            rpcRoot.Expose("app", this);
+            rpcRoot.Expose("mainwnd", window);
         }
 
         private void HandleNodeMessageEvent(string nodeLine)
@@ -147,6 +155,11 @@ namespace LiveReload
 
                 MessageBox.Show(text, title, MessageBoxButton.OK, MessageBoxImage.Error);
                 App.Current.Shutdown();
+            }
+            else if (messageType == "rpc")
+            {
+                var arg = (Dictionary<string, object>)b[1];
+                rpcRoot.ProcessIncomingUpdate(arg);
             }
         }
 
