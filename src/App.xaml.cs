@@ -136,14 +136,6 @@ namespace LiveReload
                 }
                 window.updateTreeView(projectsList);
             }
-            else if (messageType == "status")
-            {
-                var arg = (Dictionary<string, object>)b[1];
-
-                var status = (string)arg["status"];
-
-                window.textBlockStatus.Text = status;
-            }
             else if (messageType == "app.displayCriticalError")
             {
                 var arg = (Dictionary<string, object>) b[1];
