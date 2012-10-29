@@ -206,5 +206,12 @@ namespace LiveReload
         {
             Process.Start(@"http://feedback.livereload.com/");
         }
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = new TreeViewItem();
+            item.Header = "foo.less -> foo.css";
+            treeViewPaths.Items.Add(item);
+        }
     }
 }
