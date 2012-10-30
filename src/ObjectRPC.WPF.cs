@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ObjectRPC.WPF
@@ -19,6 +20,28 @@ namespace ObjectRPC.WPF
             {
                 obj.Text = value;
             }
+        }
+    }
+
+    class ButtonFacet : Facet<Button>
+    {
+        public ButtonFacet(Entity entity, Button obj)
+            : base(entity, obj)
+        {
+            obj.Click += OnClick;
+        }
+
+        public string Label
+        {
+            set
+            {
+                obj.Content = value;
+            }
+        }
+
+        private void OnClick(object sender, RoutedEventArgs e)
+        {
+            entity.SendUpdate(new Dictionary<string, object> { {"click", true } });
         }
     }
 
@@ -54,6 +77,7 @@ namespace ObjectRPC.WPF
         public static void Register(RootEntity rpc)
         {
             rpc.Register(typeof(TextBlock), typeof(TextBlockFacet));
+            rpc.Register(typeof(Button), typeof(ButtonFacet));
             rpc.Register(typeof(TreeView), typeof(TreeViewFacet));
         }
     }
