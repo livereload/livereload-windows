@@ -27,6 +27,11 @@ namespace LiveReload
         private string logFile;
         private CommandLineOptions options;
 
+        public void SendCommand(string command, object arg)
+        {
+            nodeFoo.Send(command, arg);
+        }
+
         public static string Version
         {
             get

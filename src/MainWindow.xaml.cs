@@ -121,7 +121,9 @@ namespace LiveReload
                 checkBoxRunCustom.IsEnabled = false;
                 checkBoxCompile.IsChecked = false;
                 checkBoxRunCustom.IsChecked = false;
+                selectedID = null;
             }
+            ((App)App.Current).SendCommand("projects.setSelectedProject", new Dictionary<string, object> { { "id", selectedID } });
         }
 
         private void buttonProjectAdd_Click(object sender, RoutedEventArgs e)
