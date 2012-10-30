@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/img/icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -23,8 +24,8 @@
     </Controls:MetroWindow.WindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="152" />
-            <ColumnDefinition Width="466" />
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="490*" />
         </Grid.ColumnDefinitions>
 
         <Grid Name="gridProgress" Grid.ColumnSpan="2" Panel.ZIndex="1" Visibility="Hidden" >
@@ -44,7 +45,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="390*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="200" />
             </Grid.RowDefinitions>
             <TreeView Name="treeViewProjects" Grid.Row="0" BorderThickness="0" Background="LightGray" SelectedItemChanged="treeViewProjects_SelectedItemChanged" AllowDrop="True" Drop="treeViewProjects_Drop" />
             <Grid Name="gridButtons" Background="LightGray" Grid.Row="1" Margin="0,0,0,8">
@@ -83,53 +83,62 @@
                     </Rectangle>
                 </Button>
             </Grid>
-            <TreeView Name="treeViewPaths" Grid.Row="2" BorderThickness="0" Background="LightGray" />
         </Grid>
 
-        <StackPanel Name="stackProjectPane" Grid.Column="1" Margin="45,70,12,0">
-            <TextBlock Height="23" Margin="85,0,0,0" Name="textBlockProjectName" Text="&lt;Name&gt;" FontWeight="Bold" FontSize="14" />
-            <TextBlock Height="23" Margin="85,6,0,0" Name="textBlockProjectPath" Text="&lt;Path&gt;" />
-            <Grid Margin="0,21,12,3" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Height="23" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" Name="textBlock1" Grid.Column="0">
+
+
+        <TextBlock Grid.Column="1" Height="23" Margin="45,0,12,6" Name="textBlockStatus" VerticalAlignment="Bottom" />
+        <TabControl Grid.Column="1" Margin="10">
+            <TabItem Header="Overview" >
+                <StackPanel Name="stackProjectPane" Margin="10,0,0,0">
+                    <TextBlock Height="23" Margin="85,16,0,0" Name="textBlockProjectName" Text="&lt;Name&gt;" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Height="23" Margin="85,6,0,0" Name="textBlockProjectPath" Text="&lt;Path&gt;" />
+                    <Grid Margin="0,21,0,3" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Height="23" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" Name="textBlock1" Grid.Column="0">
                     (1) Site URL(s):
-                </TextBlock>
-                <TextBox Height="23" VerticalAlignment="Center" Margin="6,0,0,0" Name="textBoxUrl" Foreground="Black" Controls:TextboxHelper.Watermark="localhost:3000, site.local, dev.example.com" IsReadOnly="True" TextChanged="textBoxUrl_TextChanged" LostFocus="textBoxUrl_LostFocus" Grid.Column="1" />
-            </Grid>
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="0,18,0,0" Name="textBlock2" VerticalAlignment="Top" Grid.Column="1">(2) Insert this tag before &lt;/body&gt; or
+                        </TextBlock>
+                        <TextBox Height="23" VerticalAlignment="Center" Margin="6,0,0,0" Name="textBoxUrl" Foreground="Black" Controls:TextboxHelper.Watermark="localhost:3000, site.local, dev.example.com" IsReadOnly="True" TextChanged="textBoxUrl_TextChanged" LostFocus="textBoxUrl_LostFocus" Grid.Column="1" />
+                    </Grid>
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="0,18,0,0" Name="textBlock2" VerticalAlignment="Top" Grid.Column="1">(2) Insert this tag before &lt;/body&gt; or
             <Hyperlink
                 NavigateUri="http://go.livereload.com/extensions"
                 RequestNavigate="Hyperlink_RequestNavigate">
                 install browser extensions
             </Hyperlink>:
-            </TextBlock>
-            <TextBox Height="35" Margin="20,3,0,3" Name="textBoxSnippet" FontSize="10" TextWrapping="Wrap" Controls:TextboxHelper.Watermark="[open a project to see its snippet that corresponds to entered URL(s)]" IsReadOnly="True" />
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="0,18,0,0" Name="textBlock3" >
+                    </TextBlock>
+                    <TextBox Height="35" Margin="20,3,0,3" Name="textBoxSnippet" FontSize="10" TextWrapping="Wrap" Controls:TextboxHelper.Watermark="[open a project to see its snippet that corresponds to entered URL(s)]" IsReadOnly="True" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="0,18,0,0" Name="textBlock3" >
             (3) When a file is modified:
-            </TextBlock>
-            <Grid Margin="20,6,0,0" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="214" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <CheckBox Name="checkBoxCompile"   Content="Compile scripts, stylesheets, etc" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" IsEnabled="False" Click="checkBoxCompile_Click" />
-                <CheckBox Name="checkBoxRunCustom" Content="Run a custom command"              Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" IsEnabled="False" Visibility="Hidden" />
-                <TextBlock Name="textBlock4" Margin="26,3,0,12"  VerticalAlignment="Top" TextWrapping="Wrap" FontSize="10" Grid.Column="0" Grid.Row="1">
+                    </TextBlock>
+                    <Grid Margin="20,6,0,0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="214" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Name="checkBoxCompile"   Content="Compile scripts, stylesheets, etc" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" IsEnabled="False" Click="checkBoxCompile_Click" />
+                        <CheckBox Name="checkBoxRunCustom" Content="Run a custom command"              Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" IsEnabled="False" Visibility="Hidden" />
+                        <TextBlock Name="textBlock4" Margin="26,3,0,12"  VerticalAlignment="Top" TextWrapping="Wrap" FontSize="10" Grid.Column="0" Grid.Row="1">
                     CoffeeScript, Eco, HAML, IcedCoffeeScript, Jade, LESS, SASS, Compass, Slim, Stylus
-                </TextBlock>
-                <Button Name="buttonCompile"   Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="0" IsEnabled="False" Visibility="Hidden" />
-                <Button Name="buttonRunCustom" Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="2" IsEnabled="False" Visibility="Hidden" />
-            </Grid>
-        </StackPanel>
-
-        <TextBlock Grid.Column="1" Height="23" Margin="45,0,12,6" Name="textBlockStatus" VerticalAlignment="Bottom" />
+                        </TextBlock>
+                        <Button Name="buttonCompile"   Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="0" IsEnabled="False" Visibility="Hidden" />
+                        <Button Name="buttonRunCustom" Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="2" IsEnabled="False" Visibility="Hidden" />
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Paths">
+                <Grid >
+                    <TreeView x:Name="treeViewPaths" />
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Controls:MetroWindow>
