@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
 
+using D = System.Collections.Generic.Dictionary<string, object>;
+
 namespace LiveReload
 {
     /// <summary>
@@ -231,6 +233,25 @@ namespace LiveReload
                 {
                     ProjectAddEvent(name);
                 }
+            }
+        }
+
+        public void chooseOutputFolder(D options, ObjectRPC.PayloadDelegate reply)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+
+            string initial = (string)options["initial"];
+            if (initial != null)
+                dialog.SelectedPath = initial;
+
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                reply(new D { {"ok", true}, {"path", dialog.SelectedPath } });
+            }
+            else
+            {
+                reply(new D { {"ok", false } });
             }
         }
     }
