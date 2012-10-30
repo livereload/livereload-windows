@@ -200,6 +200,13 @@ namespace LiveReload
             logWriter.WriteLine("Node.js appears to have crashed.");
             logWriter.Flush();
 
+            if (CanRestartBackend)
+            {
+                MessageBox.Show("Node.js backend has crashed. Press OK to restart.", "LiveReload crash", MessageBoxButton.OK, MessageBoxImage.Error);
+                RestartBackend();
+                return;
+            }
+
             EmergencyShutdown("LiveReload backend process (LiveReloadNodejs) appears to have crashed.");
        }
 
