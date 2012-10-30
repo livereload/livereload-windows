@@ -262,6 +262,7 @@ namespace ObjectRPC
         {
             this.parent = parent;
             this.name   = name;
+            this.obj    = obj;
 
             AddFacet(new ReflectionFacet(this, obj));
         }
@@ -327,7 +328,7 @@ namespace ObjectRPC
 
         public bool TryCreate(ChildEntity obj, out IFacet facet)
         {
-            if (objType.IsAssignableFrom(obj.GetType()))
+            if (objType.IsAssignableFrom(obj.obj.GetType()))
             {
                 facet = (IFacet)Activator.CreateInstance(facetType, obj, obj.obj);
                 return true;
