@@ -46,7 +46,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="200" />
             </Grid.RowDefinitions>
-            <TreeView Name="treeViewProjects" Grid.Row="0" BorderThickness="0" Background="LightGray" SelectedItemChanged="treeViewProjects_SelectedItemChanged" />
+            <TreeView Name="treeViewProjects" Grid.Row="0" BorderThickness="0" Background="LightGray" SelectedItemChanged="treeViewProjects_SelectedItemChanged" AllowDrop="True" Drop="treeViewProjects_Drop" />
             <Grid Name="gridButtons" Background="LightGray" Grid.Row="1" Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

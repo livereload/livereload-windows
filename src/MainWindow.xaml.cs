@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.Diagnostics;
+using System.IO;
 
 namespace LiveReload
 {
@@ -212,6 +213,19 @@ namespace LiveReload
             TreeViewItem item = new TreeViewItem();
             item.Header = "foo.less -> foo.css";
             treeViewPaths.Items.Add(item);
+        }
+
+        private void treeViewProjects_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                var droppedFileNames = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+                foreach (string name in droppedFileNames)
+                if (Directory.Exists(name))
+                {
+                    ProjectAddEvent(name);
+                }
+            }
         }
     }
 }
