@@ -51,10 +51,13 @@ namespace LiveReload
             process.StartInfo.RedirectStandardInput = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true; // node doesn't work without this line
+            process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+            process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
 
             process.Start();
 
-            writer = process.StandardInput;
+            var SaneUTF8 = new UTF8Encoding(false);  // UTF8 that does not emit BOM
+            writer = new StreamWriter(process.StandardInput.BaseStream, SaneUTF8);
             reader = process.StandardOutput;
             stderrReader = process.StandardError;
 
