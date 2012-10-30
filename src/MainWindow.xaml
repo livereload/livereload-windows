@@ -136,7 +136,12 @@
             </TabItem>
             <TabItem Header="Paths">
                 <Grid >
-                    <TreeView x:Name="treeViewPaths" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TreeView x:Name="treeViewPaths" Grid.Row="0" />
+                    <Button Name="buttonSetOutputFolder" Grid.Row="1" HorizontalAlignment="Right" Margin="0,10,0,0" Style="{DynamicResource SquareButtonStyle}" Width="150"> Set output folder...</Button>
                 </Grid>
             </TabItem>
         </TabControl>
