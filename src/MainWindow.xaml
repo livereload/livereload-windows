@@ -96,7 +96,7 @@
 
 
         <TextBlock Grid.Column="1" Height="23" Margin="45,0,12,6" Name="textBlockStatus" VerticalAlignment="Bottom" />
-        <TabControl Grid.Column="1" Margin="10">
+        <TabControl Grid.Column="1" Margin="10,10,10,35">
             <TabItem Header="Overview" >
                 <StackPanel Name="stackProjectPane" Margin="10,0,0,0">
                     <TextBlock Height="23" Margin="85,16,0,0" Name="textBlockProjectName" Text="&lt;Name&gt;" FontWeight="Bold" FontSize="14" />
