@@ -79,6 +79,11 @@ namespace LiveReload
                 return;
             }
 
+            StartUI();
+        }
+
+        private void StartUI()
+        {
             window = new MainWindow();
             window.ProjectAddEvent             += HandleProjectAddEvent;
             window.ProjectRemoveEvent          += HandleProjectRemoveEvent;
@@ -96,6 +101,7 @@ namespace LiveReload
             // has to be done before launching Node
             BeginExtractBundledResources(Application_ContinueStartupAfterExtraction);
         }
+
         private void Application_ContinueStartupAfterExtraction()
         {
             if (options.LRBackendOverride != null)
@@ -209,6 +215,24 @@ namespace LiveReload
             }
 
             App.Current.Shutdown(1);
+        }
+
+        public bool CanRestartBackend
+        {
+            get
+            {
+                return options.LRBackendOverride != null;
+            }
+        }
+
+        public void RestartBackend()
+        {
+            window.Hide();
+            window = null;
+            rpcRoot = null;
+            nodeFoo.Dispose();
+            nodeFoo = null;
+            StartUI();
         }
 
         private void HandleMainWindowHideEvent()

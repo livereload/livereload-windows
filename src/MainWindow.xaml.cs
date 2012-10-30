@@ -181,7 +181,11 @@ namespace LiveReload
 
         private void buttonVersion_Click(object sender, RoutedEventArgs e)
         {
-            ((App)App.Current).OpenExplorerWithLog();
+            App app = (App)App.Current;
+            if (app.CanRestartBackend)
+                app.RestartBackend();
+            else
+                ((App)App.Current).OpenExplorerWithLog();
         }
 
         private void MetroWindow_StateChanged(object sender, EventArgs e)

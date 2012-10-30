@@ -20,6 +20,9 @@ namespace LiveReload
         private string nodeDir;
         private string backendDir;
         private StreamWriter logWriter;
+        private Thread nodeThread;
+        private Thread stderrThread;
+        private bool disposed = false;
 
         public event Action         NodeStartedEvent;
         public event Action         NodeCrash;
@@ -34,7 +37,7 @@ namespace LiveReload
 
         public void Start()
         {
-            Thread nodeThread = new Thread(new ThreadStart(NodeRun));
+            nodeThread = new Thread(new ThreadStart(NodeRun));
             nodeThread.IsBackground = true; // need for thread to close at application exit
             nodeThread.Start();
         }
@@ -59,7 +62,7 @@ namespace LiveReload
                 (Action)(() => { NodeStartedEvent(); })
             );
 
-            Thread stderrThread = new Thread(new ThreadStart(CopyNodeStderrToLog));
+            stderrThread = new Thread(new ThreadStart(CopyNodeStderrToLog));
             stderrThread.IsBackground = true;
             stderrThread.Start();
         }
@@ -83,8 +86,11 @@ namespace LiveReload
                     );
                 }
             }
-            dispatcher.Invoke(DispatcherPriority.Normal,
-                (Action)(() => { NodeCrash(); })
+            dispatcher.Invoke(DispatcherPriority.Normal, (Action)(() =>
+                {
+                    if (!disposed)
+                        NodeCrash();
+                })
             );
         }
 
@@ -112,6 +118,16 @@ namespace LiveReload
         public void Send(string command, object arg)
         {
             NodeMessageSend(fastJSON.JSON.Instance.ToJSON(new object[] { command, arg }));
+        }
+
+        public void Dispose()
+        {
+            if (writer != null)
+            {
+                writer.Close();
+                writer = null;
+            }
+            disposed = true;
         }
     }
 }
