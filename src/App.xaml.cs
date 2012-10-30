@@ -232,6 +232,8 @@ namespace LiveReload
             rpcRoot = null;
             nodeFoo.Dispose();
             nodeFoo = null;
+            trayIcon.Dispose();
+            trayIcon = null;
             StartUI();
         }
 
