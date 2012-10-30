@@ -44,6 +44,7 @@ namespace ObjectRPC
     public interface IFacet
     {
         void Set(Dictionary<string, object> properties);
+        bool TryInvoke(string name, object[] args, PayloadDelegate reply);
         bool TryResolve(string name, Dictionary<string, object> payload, out object obj);
     }
 
@@ -69,20 +70,27 @@ namespace ObjectRPC
             }
         }
 
-        // The default implementation tries to access public properties and methods of this facet.
+        // The default implementation tries to invoke a public method of this facet.
+        public virtual bool TryInvoke(string name, object[] args, PayloadDelegate reply)
+        {
+            MethodInfo method = GetType().GetMethod(name, BindingFlags.Public | BindingFlags.Instance);
+            if (method != null)
+            {
+                if (reply != null)
+                    args = args.Concat(new object[] { reply }).ToArray();
+                method.Invoke(this, args);
+                return true;
+            }
+            return false;
+        }
+
+        // The default implementation tries to access public properties of this facet.
         protected virtual bool TrySet(string key, object value)
         {
             PropertyInfo prop = GetType().GetProperty(key.ToCamelCase());
             if (prop != null)
             {
                 prop.SetValue(this, value, null);
-                return true;
-            }
-
-            MethodInfo method = GetType().GetMethod(key);
-            if (method != null)
-            {
-                method.Invoke(obj, value as object[]);
                 return true;
             }
 
@@ -113,6 +121,19 @@ namespace ObjectRPC
         {
         }
 
+        public override bool TryInvoke(string name, object[] args, PayloadDelegate reply)
+        {
+            MethodInfo method = obj.GetType().GetMethod(name, BindingFlags.Public | BindingFlags.Instance);
+            if (method != null)
+            {
+                if (reply != null)
+                    args = args.Concat(new object[] { reply }).ToArray();
+                method.Invoke(obj, args);
+                return true;
+            }
+            return false;
+        }
+
         protected override bool TrySet(string key, object value)
         {
             PropertyInfo prop = obj.GetType().GetProperty(key.ToCamelCase());
@@ -126,13 +147,6 @@ namespace ObjectRPC
             if (field != null)
             {
                 field.SetValue(obj, value);
-                return true;
-            }
-
-            MethodInfo method = obj.GetType().GetMethod(key);
-            if (method != null)
-            {
-                method.Invoke(obj, value as object[]);
                 return true;
             }
 
@@ -220,10 +234,10 @@ namespace ObjectRPC
             return false;
         }
 
-        public void ProcessIncomingUpdate(IDictionary<string, object> payload)
+        public void ProcessIncomingUpdate(IDictionary<string, object> payload, PayloadDelegate reply)
         {
             // properties
-            var properties = payload.Where(e => !e.Key.StartsWith("#")).ToDictionary(e => e.Key, e => e.Value);
+            var properties = payload.Where(e => !e.Key.StartsWith("#") && !e.Key.StartsWith("!")).ToDictionary(e => e.Key, e => e.Value);
             foreach (IFacet facet in facets)
                 if (properties.Count > 0)
                     // properties can be mutated by this call
@@ -245,9 +259,23 @@ namespace ObjectRPC
                     throw new PayloadException("Cannot resolve child named: " + name);
 
                 // childPayload can and likely will be mutated by this call
-                child.ProcessIncomingUpdate(childPayload);
+                child.ProcessIncomingUpdate(childPayload, reply);
+            }
+
+            // methods
+            foreach (var entry in payload.Where(e => e.Key.StartsWith("!")))
+            {
+                string name = entry.Key.Substring(1);
+                object[] args = ((IList<object>) entry.Value).ToArray();
+                foreach (var facet in facets)
+                {
+                    if (facet.TryInvoke(name, args, reply))
+                        break;
+                }
             }
         }
+
+        public abstract void SendUpdate(Dictionary<string, object> payload);
     }
 
     // All entites created via Expose or Resolve calls are ChildEntities
@@ -281,6 +309,11 @@ namespace ObjectRPC
         {
             get { return parent.PathPrefix + "#" + name + " "; }
         }
+
+        public override void SendUpdate(Dictionary<string, object> payload)
+        {
+            parent.SendUpdate(new Dictionary<string, object> { { "#" + name, payload } });
+        }
     }
 
     // The root entity does not correspond to any native objects, and is used to gain access to the real exposed objects.
@@ -312,6 +345,12 @@ namespace ObjectRPC
         public void Register(Type objType, Type facetType)
         {
             facetRegistrations.Add(new FacetRegistration(objType, facetType));
+        }
+
+        public override void SendUpdate(Dictionary<string, object> payload)
+        {
+            if (OutgoingUpdate != null)
+                OutgoingUpdate(payload);
         }
     }
 

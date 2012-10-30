@@ -162,7 +162,15 @@ namespace LiveReload
             else if (messageType == "rpc")
             {
                 var arg = (Dictionary<string, object>)b[1];
-                rpcRoot.ProcessIncomingUpdate(arg);
+
+                ObjectRPC.PayloadDelegate reply = null;
+                if (b.Length > 2)
+                {
+                    string callback = (string)b[2];
+                    reply = (payload => SendCommand(callback, payload));
+                }
+
+                rpcRoot.ProcessIncomingUpdate(arg, reply);
             }
         }
 
