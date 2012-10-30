@@ -16,13 +16,11 @@ namespace ObjectRPC
     {
         public PayloadException(string message)
             : base(message)
-        {
-        }
+        { }
 
         protected PayloadException(SerializationInfo info, StreamingContext context)
             : base(info, context)
-        {
-        }
+        { }
     }
 
     public static class StringExtensions
@@ -169,25 +167,12 @@ namespace ObjectRPC
         private readonly List<IFacet> facets = new List<IFacet>();
         private readonly Dictionary<string, ChildEntity> children = new Dictionary<string, ChildEntity>();
 
-        public Entity()
-        {
-        }
+        public Entity() { }
 
-        public abstract RootEntity Root
-        {
-            get;
-        }
-
-        public abstract string Path
-        {
-            get;
-        }
-
-        public abstract string PathPrefix
-        {
-            get;
-        }
-
+        public abstract RootEntity Root { get; }
+        public abstract string Path { get; }
+        public abstract string PathPrefix { get; }
+        
         public void AddFacet(IFacet facet)
         {
             facets.Insert(0, facet);
@@ -283,26 +268,17 @@ namespace ObjectRPC
 
         public override RootEntity Root
         {
-            get
-            {
-                return parent.Root;
-            }
+            get { return parent.Root; }
         }
 
         public override string Path
         {
-            get
-            {
-                return parent.PathPrefix + "#" + name;
-            }
+            get { return parent.PathPrefix + "#" + name; }
         }
 
         public override string PathPrefix
         {
-            get
-            {
-                return parent.PathPrefix + "#" + name + " ";
-            }
+            get { return parent.PathPrefix + "#" + name + " "; }
         }
     }
 
@@ -315,32 +291,21 @@ namespace ObjectRPC
         // unused so far
         public event PayloadDelegate OutgoingUpdate;
 
-        public RootEntity()
-        {
-        }
+        public RootEntity() { }
 
         public override RootEntity Root
         {
-            get
-            {
-                return this;
-            }
+            get { return this; }
         }
 
         public override string Path
         {
-            get
-            {
-                return "(root)";
-            }
+            get { return "(root)"; }
         }
 
         public override string PathPrefix
         {
-            get
-            {
-                return "";
-            }
+            get { return ""; }
         }
 
         public void Register(Type objType, Type facetType)
