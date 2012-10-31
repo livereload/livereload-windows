@@ -40,6 +40,7 @@ namespace LiveReload
         public MainWindow()
         {
             InitializeComponent();
+            tabs.Visibility = System.Windows.Visibility.Hidden;
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -104,9 +105,15 @@ namespace LiveReload
                 checkBoxRunCustom.IsEnabled = true;
                 checkBoxCompile.IsChecked = project.compilationEnabled;
                 selectedID = project.id;
+
+                labelNoFolderSelected.Visibility = System.Windows.Visibility.Hidden;
+                tabs.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
+                tabs.Visibility = System.Windows.Visibility.Hidden;
+                labelNoFolderSelected.Visibility = System.Windows.Visibility.Visible;
+
                 textBlockProjectName.Text = "-";
                 textBlockProjectPath.Text = "-";
                 textBoxSnippet.Text      = null;
