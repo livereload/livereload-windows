@@ -95,8 +95,6 @@
             </Grid>
         </Grid>
 
-
-
         <TextBlock Grid.Column="1" Height="23" Margin="45,0,12,6" Name="textBlockStatus" VerticalAlignment="Bottom" />
         <TabControl Grid.Column="1" Margin="10,10,10,35">
             <TabItem Header="Overview" >
@@ -109,20 +107,20 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Height="23" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" Name="textBlock1" Grid.Column="0">
-                    (1) Site URL(s):
+                            (1) Site URL(s):
                         </TextBlock>
                         <TextBox Height="23" VerticalAlignment="Center" Margin="6,0,0,0" Name="textBoxUrl" Foreground="Black" Controls:TextboxHelper.Watermark="localhost:3000, site.local, dev.example.com" IsReadOnly="True" TextChanged="textBoxUrl_TextChanged" LostFocus="textBoxUrl_LostFocus" Grid.Column="1" />
                     </Grid>
                     <TextBlock Height="23" HorizontalAlignment="Left" Margin="0,18,0,0" Name="textBlock2" VerticalAlignment="Top" Grid.Column="1">(2) Insert this tag before &lt;/body&gt; or
-            <Hyperlink
-                NavigateUri="http://go.livereload.com/extensions"
-                RequestNavigate="Hyperlink_RequestNavigate">
-                install browser extensions
-            </Hyperlink>:
+                        <Hyperlink
+                            NavigateUri="http://go.livereload.com/extensions"
+                            RequestNavigate="Hyperlink_RequestNavigate">
+                            install browser extensions
+                        </Hyperlink>:
                     </TextBlock>
                     <TextBox Height="35" Margin="20,3,0,3" Name="textBoxSnippet" FontSize="10" TextWrapping="Wrap" Controls:TextboxHelper.Watermark="[open a project to see its snippet that corresponds to entered URL(s)]" IsReadOnly="True" />
                     <TextBlock Height="23" HorizontalAlignment="Left" Margin="0,18,0,0" Name="textBlock3" >
-            (3) When a file is modified:
+                        (3) When a file is modified:
                     </TextBlock>
                     <Grid Margin="20,6,0,0" >
                         <Grid.RowDefinitions>
@@ -137,7 +135,7 @@
                         <CheckBox Name="checkBoxCompile"   Content="Compile scripts, stylesheets, etc" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" IsEnabled="False" Click="checkBoxCompile_Click" />
                         <CheckBox Name="checkBoxRunCustom" Content="Run a custom command"              Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" IsEnabled="False" Visibility="Hidden" />
                         <TextBlock Name="textBlock4" Margin="26,3,0,12"  VerticalAlignment="Top" TextWrapping="Wrap" FontSize="10" Grid.Column="0" Grid.Row="1">
-                    CoffeeScript, Eco, HAML, IcedCoffeeScript, Jade, LESS, SASS, Compass, Slim, Stylus
+                            CoffeeScript, Eco, HAML, IcedCoffeeScript, Jade, LESS, SASS, Compass, Slim, Stylus
                         </TextBlock>
                         <Button Name="buttonCompile"   Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="0" IsEnabled="False" Visibility="Hidden" />
                         <Button Name="buttonRunCustom" Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="2" IsEnabled="False" Visibility="Hidden" />
