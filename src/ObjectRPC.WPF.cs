@@ -50,10 +50,21 @@ namespace ObjectRPC.WPF
     class TreeViewFacet : Facet<TreeView>
     {
         private IList<object> data;
-
+        private bool isTreeViewUpdateInProgress = false;
+        
         public TreeViewFacet(Entity entity, TreeView obj)
             : base(entity, obj)
         {
+            obj.SelectedItemChanged += OnSelectedItemChanged;
+        }
+
+        public string SelectedId
+        {
+            get
+            {
+                var selectedTVI = (TreeViewItem)obj.SelectedItem;
+                return (string)((selectedTVI != null) ? selectedTVI.Tag : null);
+            }
         }
 
         public IList<object> Data
@@ -63,6 +74,11 @@ namespace ObjectRPC.WPF
                 data = value;
 
                 var items = obj.Items;
+
+                TreeViewItem newSelectedTVI = null;
+
+                isTreeViewUpdateInProgress = true;
+                string oldSelectedId = SelectedId;
                 items.Clear();
                 foreach (var itemDataRaw in data)
                 {
@@ -74,10 +90,52 @@ namespace ObjectRPC.WPF
                     tvi.Header = text;
                     tvi.Tag = id;
                     items.Add(tvi);
+
+                    if (id == oldSelectedId)
+                    {
+                        newSelectedTVI = tvi;
+                    }
                 }
+
+                if (oldSelectedId != null)
+                    if (newSelectedTVI == null )
+                    {
+                        isTreeViewUpdateInProgress = false;
+                        OnSelectedItemChanged(null, null); // need to reset view
+                    }
+                    else
+                    {
+                        SelectItem(newSelectedTVI);
+                        isTreeViewUpdateInProgress = false;
+                    }
+                else
+                    isTreeViewUpdateInProgress = false;
             }
         }
-   }
+
+        private void SelectItemHelper(TreeViewItem item) // unneeded ATM, retest when we will have tree depth > 1
+        {
+            if (item == null)
+                return;
+            SelectItemHelper((TreeViewItem)item.Parent);
+            if (!item.IsExpanded)
+            {
+                item.IsExpanded = true;
+                item.UpdateLayout();
+            }
+        }
+        private void SelectItem(TreeViewItem item) // QND solution
+        {
+            SelectItemHelper(item.Parent as TreeViewItem);
+            item.IsSelected = true;
+        }
+
+        private void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (!isTreeViewUpdateInProgress)
+                entity.SendUpdate(new Dictionary<string, object> { { "selectedId", SelectedId } });
+        }
+    }
 
     public static class UIFacets
     {
