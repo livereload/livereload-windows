@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
+using D = System.Collections.Generic.Dictionary<string, object>;
+
 namespace ObjectRPC.WPF
 {
     class TextBlockFacet : Facet<TextBlock>
@@ -47,6 +49,8 @@ namespace ObjectRPC.WPF
 
     class TreeViewFacet : Facet<TreeView>
     {
+        private IList<object> data;
+
         public TreeViewFacet(Entity entity, TreeView obj)
             : base(entity, obj)
         {
@@ -56,9 +60,11 @@ namespace ObjectRPC.WPF
         {
             set
             {
+                data = value;
+
                 var items = obj.Items;
                 items.Clear();
-                foreach (var itemDataRaw in value)
+                foreach (var itemDataRaw in data)
                 {
                     var itemData = (Dictionary<string, object>)itemDataRaw;
                     string id = (string)itemData["id"];
@@ -66,6 +72,7 @@ namespace ObjectRPC.WPF
 
                     var tvi = new TreeViewItem();
                     tvi.Header = text;
+                    tvi.Tag = id;
                     items.Add(tvi);
                 }
             }
