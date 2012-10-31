@@ -1,15 +1,16 @@
 set VER=0.7.0
+set PKG=livereload-%VER%
 
 cd "%~dp0"
 
 rd /s /q backend
 rd /s /q package
-del /q /f "livereload-%VER%.tar"
+del /q /f "%PKG%.tar"
 
-tools\curl -O "http://download.livereload.com/npm/livereload-%VER%.tgz"
-tools\7za x "livereload-%VER%.tgz"
-tools\7za x "livereload-%VER%.tar"
-del /q /f "livereload-%VER%.tar"
+tools\curl -O "http://download.livereload.com/npm/%PKG%.tgz"
+tools\7za x "%PKG%.tgz"
+tools\7za x "%PKG%.tar"
+del /q /f "%PKG%.tar"
 ren package backend
 
 for /d /r . %%d in (test example examples) do @if exist "%%d" rd /s/q "%%d"
