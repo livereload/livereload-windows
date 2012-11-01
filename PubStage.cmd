@@ -1,3 +1,0 @@
-@call PubStageBuild
-@call PubStageUpload
-
