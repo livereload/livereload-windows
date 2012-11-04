@@ -20,7 +20,7 @@ namespace ObjectRPC.WPF
         {
             set { obj.Visibility = value ? Visibility.Visible : Visibility.Hidden; }
         }
-        public bool Enable
+        public bool Enabled
         {
             set { obj.IsEnabled = value; }
         }
