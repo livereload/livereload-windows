@@ -48,7 +48,7 @@ namespace LiveReload
         {
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            Environment.SetEnvironmentVariable("DEBUG", "livereload:*");
+            Environment.SetEnvironmentVariable("DEBUG", "*");
 
             // root dirs
             baseDir         = System.AppDomain.CurrentDomain.BaseDirectory;
