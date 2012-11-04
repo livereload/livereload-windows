@@ -90,20 +90,41 @@ namespace ObjectRPC.WPF
 
     class TextBoxFacet : Facet<TextBox>
     {
+        private bool isBeingChangedByUser = false;
+        private bool isBeingChangedProgramatically = false;
+
         public TextBoxFacet(Entity entity, TextBox obj)
             : base(entity, obj)
         {
             obj.TextChanged += OnTextChanged;
+            obj.LostFocus   += OnLostFocus;
         }
 
         public string Text
         {
-            set { obj.Text = value; }
+            set
+            {
+                if (!isBeingChangedByUser)
+                {
+                    isBeingChangedProgramatically = true;
+                    obj.Text = value;
+                    isBeingChangedProgramatically = false;
+                }
+            }
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)
         {
-            entity.SendUpdate(new Dictionary<string, object> { { "text", obj.Text} });
+            if (!isBeingChangedProgramatically)
+            {
+                isBeingChangedByUser = true;
+                entity.SendUpdate(new Dictionary<string, object> { { "text", obj.Text } });
+            }
+        }
+
+        private void OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            isBeingChangedByUser = false;
         }
     }
 
