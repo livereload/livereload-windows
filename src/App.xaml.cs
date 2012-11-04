@@ -90,9 +90,6 @@ namespace LiveReload
         private void StartUI()
         {
             window = new MainWindow();
-            window.ProjectAddEvent             += HandleProjectAddEvent;
-            window.ProjectRemoveEvent          += HandleProjectRemoveEvent;
-            window.ProjectPropertyChangedEvent += HandleProjectPropertyChangedEvent;
             window.MainWindowHideEvent         += HandleMainWindowHideEvent;
             window.NodeMessageEvent            += HandleNodeMessageEvent;
             window.buttonVersion.Content = "v" + Version;
@@ -136,19 +133,7 @@ namespace LiveReload
         {
             var b = (object[])fastJSON.JSON.Instance.ToObject(nodeLine);
             string messageType = (string) b[0];
-            if (messageType == "update")
-            {
-                var messageArg = (Dictionary<string, object>) b[1];
-                var rawProjects = (List<object>)messageArg["projects"];
-
-                var projectsList = new List<ProjectData>();
-                foreach (var rawProject in rawProjects)
-                {
-                    projectsList.Add(new ProjectData((Dictionary<string, object>) rawProject));
-                }
-                window.updateTreeView(projectsList);
-            }
-            else if (messageType == "app.displayCriticalError")
+            if (messageType == "app.displayCriticalError")
             {
                 var arg = (Dictionary<string, object>) b[1];
 
@@ -277,29 +262,6 @@ namespace LiveReload
             {
                 HandleMainWindowShowEvent();
             }
-        }
-
-        private void HandleProjectAddEvent(string path)
-        {
-            var foo = new object[] { "projects.add", new Dictionary<string, object>{{"path", path}}};
-            string response = fastJSON.JSON.Instance.ToJSON(foo);
-            nodeFoo.NodeMessageSend(response);
-        }
-        private void HandleProjectRemoveEvent(string id)
-        {
-            var foo = new object[] { "projects.remove", new Dictionary<string, object> { { "id", id } } };
-            string response = fastJSON.JSON.Instance.ToJSON(foo);
-            nodeFoo.NodeMessageSend(response);
-        }
-        private void HandleProjectPropertyChangedEvent(string id, string property, object value)
-        {
-            var foo = new object[] { "projects.update",
-                                     new Dictionary<string, object> {
-                                        {"id",     id },
-                                        {property, value}
-            } };
-            string response = fastJSON.JSON.Instance.ToJSON(foo);
-            nodeFoo.NodeMessageSend(response);
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
