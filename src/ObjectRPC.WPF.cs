@@ -9,6 +9,23 @@ using D = System.Collections.Generic.Dictionary<string, object>;
 
 namespace ObjectRPC.WPF
 {
+    class UIElementFacet : Facet<UIElement>
+    {
+        public UIElementFacet(Entity entity, UIElement obj)
+            : base(entity, obj)
+        {
+        }
+
+        public bool Visible
+        {
+            set { obj.Visibility = value ? Visibility.Visible : Visibility.Hidden; }
+        }
+        public bool Enable
+        {
+            set { obj.IsEnabled = value; }
+        }
+    }
+
     class TextBlockFacet : Facet<TextBlock>
     {
         public TextBlockFacet(Entity entity, TextBlock obj)
@@ -185,6 +202,7 @@ namespace ObjectRPC.WPF
     {
         public static void Register(RootEntity rpc)
         {
+            rpc.Register(typeof(UIElement), typeof(UIElementFacet));
             rpc.Register(typeof(TextBlock), typeof(TextBlockFacet));
             rpc.Register(typeof(Button), typeof(ButtonFacet));
             rpc.Register(typeof(TreeView), typeof(TreeViewFacet));
