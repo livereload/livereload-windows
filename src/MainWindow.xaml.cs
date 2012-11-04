@@ -102,7 +102,7 @@ namespace LiveReload
             }
         }
 
-        private void buttonRunCustom_Click(object sender, RoutedEventArgs e)
+        private void buttonSimulateNodeEvent_Click(object sender, RoutedEventArgs e)
         {
             string debugSimulatedMessage = Microsoft.VisualBasic.Interaction.InputBox("Simulated message from Node:");
             if (debugSimulatedMessage != null)

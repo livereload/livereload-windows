@@ -19,7 +19,13 @@
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
             <Button Name="buttonSupport" Content="support" Click="buttonSupport_Click" ToolTip="Support" />
-            <Button Name="buttonVersion" Content="version" Click="buttonVersion_Click" ToolTip="Reveal log" />
+            <Button Name="buttonVersion" Content="version" Click="buttonVersion_Click" ToolTip="Reveal log" >
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="buttonSimulateNodeEvent" Header="Simulate event from Node"  Click="buttonSimulateNodeEvent_Click" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.WindowCommands>
     <Grid>
