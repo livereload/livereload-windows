@@ -94,6 +94,7 @@ namespace LiveReload
             window.ProjectRemoveEvent          += HandleProjectRemoveEvent;
             window.ProjectPropertyChangedEvent += HandleProjectPropertyChangedEvent;
             window.MainWindowHideEvent         += HandleMainWindowHideEvent;
+            window.NodeMessageEvent            += HandleNodeMessageEvent;
             window.buttonVersion.Content = "v" + Version;
             window.gridProgress.Visibility = Visibility.Visible;
             window.Show();

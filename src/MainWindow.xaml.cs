@@ -36,6 +36,7 @@ namespace LiveReload
         public event Action<string> ProjectAddEvent;
         public event Action<string> ProjectRemoveEvent;
         public event Action<string, string, object> ProjectPropertyChangedEvent;
+        public event Action<string> NodeMessageEvent;
 
         public MainWindow()
         {
@@ -260,6 +261,13 @@ namespace LiveReload
             {
                 reply(new D { {"ok", false } });
             }
+        }
+
+        private void buttonRunCustom_Click(object sender, RoutedEventArgs e)
+        {
+            string debugSimulatedMessage = Microsoft.VisualBasic.Interaction.InputBox("Simulated message from Node:");
+            if (debugSimulatedMessage != null)
+                this.NodeMessageEvent(debugSimulatedMessage);
         }
     }
 }
