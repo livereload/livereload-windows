@@ -47,6 +47,50 @@ namespace ObjectRPC.WPF
         }
     }
 
+    class CheckBoxFacet : Facet<CheckBox>
+    {
+        public CheckBoxFacet(Entity entity, CheckBox obj)
+            : base(entity, obj)
+        {
+            obj.Click += OnClick;
+        }
+
+        public string Label
+        {
+            set { obj.Content = value; }
+        }
+
+        public bool Value
+        {
+            set { obj.IsChecked = value; }
+        }
+
+        private void OnClick(object sender, RoutedEventArgs e)
+        {
+            entity.SendUpdate(new Dictionary<string, object> { { "value", obj.IsChecked } });
+        }
+    }
+
+    class TextBoxFacet : Facet<TextBox>
+    {
+        public TextBoxFacet(Entity entity, TextBox obj)
+            : base(entity, obj)
+        {
+            obj.TextChanged += OnTextChanged;
+        }
+
+        public string Text
+        {
+            set { obj.Text = value; }
+        }
+
+        private void OnTextChanged(object sender, RoutedEventArgs e)
+        {
+            entity.SendUpdate(new Dictionary<string, object> { { "text", obj.Text} });
+        }
+    }
+
+
     class TreeViewFacet : Facet<TreeView>
     {
         private IList<object> data;
@@ -144,6 +188,8 @@ namespace ObjectRPC.WPF
             rpc.Register(typeof(TextBlock), typeof(TextBlockFacet));
             rpc.Register(typeof(Button), typeof(ButtonFacet));
             rpc.Register(typeof(TreeView), typeof(TreeViewFacet));
+            rpc.Register(typeof(CheckBox), typeof(CheckBoxFacet));
+            rpc.Register(typeof(TextBox), typeof(TextBoxFacet));
         }
     }
 }
