@@ -149,6 +149,34 @@ namespace ObjectRPC.WPF
             }
         }
 
+        private void Fill(ItemCollection items, IList<object> data, string oldSelectedId, out TreeViewItem newSelectedTVI)
+        {
+            newSelectedTVI = null;
+            foreach (var itemDataRaw in data)
+            {
+                var itemData = (Dictionary<string, object>)itemDataRaw;
+                string id = (string)itemData["id"];
+                string text = (string)itemData["text"];
+                IList<object> children = (itemData.ContainsKey("children") ? (IList<object>)itemData["children"] : null);
+
+                var tvi = new TreeViewItem();
+                tvi.Header = text;
+                tvi.Tag = id;
+                items.Add(tvi);
+
+                if (id == oldSelectedId)
+                    newSelectedTVI = tvi;
+
+                if (children != null)
+                {
+                    TreeViewItem childNewSelectedTVI;
+                    Fill(tvi.Items, children, oldSelectedId, out childNewSelectedTVI);
+                    if (childNewSelectedTVI != null)
+                        newSelectedTVI = childNewSelectedTVI;
+                }
+            }
+        }
+
         public IList<object> Data
         {
             set
@@ -162,22 +190,7 @@ namespace ObjectRPC.WPF
                 isTreeViewUpdateInProgress = true;
                 string oldSelectedId = SelectedId;
                 items.Clear();
-                foreach (var itemDataRaw in data)
-                {
-                    var itemData = (Dictionary<string, object>)itemDataRaw;
-                    string id = (string)itemData["id"];
-                    string text = (string)itemData["text"];
-
-                    var tvi = new TreeViewItem();
-                    tvi.Header = text;
-                    tvi.Tag = id;
-                    items.Add(tvi);
-
-                    if (id == oldSelectedId)
-                    {
-                        newSelectedTVI = tvi;
-                    }
-                }
+                Fill(items, data, oldSelectedId, out newSelectedTVI);
 
                 if (oldSelectedId != null)
                     if (newSelectedTVI == null )
@@ -195,11 +208,11 @@ namespace ObjectRPC.WPF
             }
         }
 
-        private void SelectItemHelper(TreeViewItem item) // unneeded ATM, retest when we will have tree depth > 1
+        private void SelectItemHelper(TreeViewItem item)
         {
             if (item == null)
                 return;
-            SelectItemHelper((TreeViewItem)item.Parent);
+            SelectItemHelper(item.Parent as TreeViewItem);
             if (!item.IsExpanded)
             {
                 item.IsExpanded = true;
