@@ -139,7 +139,7 @@
                             CoffeeScript, Eco, HAML, IcedCoffeeScript, Jade, LESS, SASS, Compass, Slim, Stylus
                         </TextBlock>
                         <Button Name="buttonCompile"   Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="0" IsEnabled="False" Visibility="Hidden" />
-                        <Button Name="buttonRunCustom" Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="2" IsEnabled="True" Visibility="Visible" />
+                        <Button Name="buttonRunCustom" Content="Options..." Style="{DynamicResource SquareButtonStyle}" Margin="6,0,0,0" Width="75" Grid.Column="1" Grid.Row="2" IsEnabled="False" Visibility="Hidden" />
                     </Grid>
                 </StackPanel>
             </TabItem>
