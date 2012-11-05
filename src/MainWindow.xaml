@@ -18,7 +18,19 @@
     </Window.Resources>
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
-            <Button Name="buttonSupport" Content="support" Click="buttonSupport_Click" ToolTip="Support" />
+            <Button Name="buttonSupport" Click="buttonSupport_Click" ToolTip="Support" >
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="16"  Height="12" Margin="0,3,6,0">
+                        <Rectangle.Resources>
+                            <SolidColorBrush x:Key="BlackBrush" Color="White" />
+                        </Rectangle.Resources>
+                        <Rectangle.Fill>
+                            <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_alien}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock Text="support" Foreground="White" />
+                </StackPanel>
+            </Button>
             <Button Name="buttonVersion" Content="version" Click="buttonVersion_Click" ToolTip="Reveal log" >
                 <Button.ContextMenu>
                     <ContextMenu>
