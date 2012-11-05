@@ -132,7 +132,7 @@
                     </TextBlock>
                     <TextBox Name="textBoxSnippet"
                         my:SelectTextOnFocus.Active="True"
-                        Height="35"
+                        Height="48"
                         Margin="20,3,0,3"
                         FontSize="10"
                         TextWrapping="Wrap"
