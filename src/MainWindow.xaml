@@ -55,8 +55,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Rectangle Name="rectStart" Fill="White" Opacity="0.90" Grid.RowSpan="2" />
-            <TextBlock TextWrapping="Wrap" Margin="10" xml:space="preserve">
-<Bold>What's new in v0.8</Bold>
+            <TextBlock TextWrapping="Wrap" Margin="30" xml:space="preserve"><Bold>What's New in v0.8</Bold>
+                
 Hey! In the release we've fixed Compass compilation and added error notifications. Also:
 
 • adjusted grace period on web socket disconnection — LiveReload now waits longer before stopping FS monitoring
@@ -65,7 +65,7 @@ Hey! In the release we've fixed Compass compilation and added error notification
             </TextBlock>
             <StackPanel Grid.Row="1" Name="stackPanelStart" >
                 <Controls:ProgressRing Name="progressStart" IsActive="True" />
-                <TextBlock Name="textProgress" Text="Extracting new resources..." TextAlignment="Center" Margin="8"/>
+                <TextBlock Name="textProgress" Text="Extracting new resources..." TextAlignment="Center" Margin="8,8,8,24"/>
             </StackPanel>
         </Grid>
 
