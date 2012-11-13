@@ -135,7 +135,8 @@ namespace ObjectRPC.WPF
     {
         private IList<object> data;
         private bool isTreeViewUpdateInProgress = false;
-        
+        private bool isInEditMode = false;
+
         public TreeViewFacet(Entity entity, TreeView obj)
             : base(entity, obj)
         {
@@ -149,6 +150,38 @@ namespace ObjectRPC.WPF
             {
                 var selectedTVI = (TreeViewItem)obj.SelectedItem;
                 return (string)((selectedTVI != null) ? selectedTVI.Tag : null);
+            }
+        }
+
+        private bool IsInEditMode
+        {
+            get
+            {
+                return isInEditMode;
+            }
+            set
+            {
+                // Make sure that the SelectedItem is actually a TreeViewItem
+                // and not null or something else
+                if (obj.SelectedItem is TreeViewItem)
+                {
+                    TreeViewItem tvi = obj.SelectedItem as TreeViewItem;
+
+                    // Also make sure that the TreeViewItem
+                    // uses an EditableTextBlock as its header
+                    if (tvi.Header is EditableTextBlock)
+                    {
+                        EditableTextBlock etb = tvi.Header as EditableTextBlock;
+
+                        // Finally make sure that we are
+                        // allowed to edit the TextBlock
+                        if (etb.IsEditable)
+                        {
+                            etb.IsInEditMode = value;
+                            isInEditMode = value;
+                        }
+                    }
+                }
             }
         }
 
@@ -183,29 +216,7 @@ namespace ObjectRPC.WPF
 
         private void OnMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            SetCurrentItemInEditMode(true);
-        }
-
-        private void SetCurrentItemInEditMode(bool EditMode)
-        {
-            // Make sure that the SelectedItem is actually a TreeViewItem
-            // and not null or something else
-            if (obj.SelectedItem is TreeViewItem)
-            {
-                TreeViewItem tvi = obj.SelectedItem as TreeViewItem;
-
-                // Also make sure that the TreeViewItem
-                // uses an EditableTextBlock as its header
-                if (tvi.Header is EditableTextBlock)
-                {
-                    EditableTextBlock etb = tvi.Header as EditableTextBlock;
-
-                    // Finally make sure that we are
-                    // allowed to edit the TextBlock
-                    if (etb.IsEditable)
-                        etb.IsInEditMode = EditMode;
-                }
-            }
+            IsInEditMode = true;
         }
 
         public IList<object> Data
