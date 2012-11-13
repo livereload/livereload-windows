@@ -28,6 +28,13 @@ namespace Borgstrup.EditableTextBlock
             base.FocusVisualStyle = null;
         }
 
+        public EditableTextBlock(string _Text, bool _IsEditable)
+            : this()
+        {
+            Text = _Text;
+            IsEditable = _IsEditable;
+        }
+
         #endregion Constructor
 
         #region Member Variables

@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
+using Borgstrup.EditableTextBlock;
+
 using D = System.Collections.Generic.Dictionary<string, object>;
 
 namespace ObjectRPC.WPF
@@ -137,6 +139,7 @@ namespace ObjectRPC.WPF
         public TreeViewFacet(Entity entity, TreeView obj)
             : base(entity, obj)
         {
+            obj.MouseDoubleClick    += OnMouseDoubleClick;
             obj.SelectedItemChanged += OnSelectedItemChanged;
         }
 
@@ -158,9 +161,10 @@ namespace ObjectRPC.WPF
                 string id = (string)itemData["id"];
                 string text = (string)itemData["text"];
                 IList<object> children = (itemData.ContainsKey("children") ? (IList<object>)itemData["children"] : null);
+                bool editable = (itemData.ContainsKey("editable") ? (bool)itemData["editable"] : false);
 
                 var tvi = new TreeViewItem();
-                tvi.Header = text;
+                tvi.Header = new EditableTextBlock(text, editable);
                 tvi.Tag = id;
                 items.Add(tvi);
 
@@ -173,6 +177,33 @@ namespace ObjectRPC.WPF
                     Fill(tvi.Items, children, oldSelectedId, out childNewSelectedTVI);
                     if (childNewSelectedTVI != null)
                         newSelectedTVI = childNewSelectedTVI;
+                }
+            }
+        }
+
+        private void OnMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            SetCurrentItemInEditMode(true);
+        }
+
+        private void SetCurrentItemInEditMode(bool EditMode)
+        {
+            // Make sure that the SelectedItem is actually a TreeViewItem
+            // and not null or something else
+            if (obj.SelectedItem is TreeViewItem)
+            {
+                TreeViewItem tvi = obj.SelectedItem as TreeViewItem;
+
+                // Also make sure that the TreeViewItem
+                // uses an EditableTextBlock as its header
+                if (tvi.Header is EditableTextBlock)
+                {
+                    EditableTextBlock etb = tvi.Header as EditableTextBlock;
+
+                    // Finally make sure that we are
+                    // allowed to edit the TextBlock
+                    if (etb.IsEditable)
+                        etb.IsInEditMode = EditMode;
                 }
             }
         }
