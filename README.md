@@ -48,6 +48,7 @@ Ruby 1.9.3 is ruby-1.9.3-p286-i386-mingw32.7z with the following items removed:
 * fastJSON library:      http://fastjson.codeplex.com/
 * MahApps.Metro:         http://mahapps.com/MahApps.Metro/
 * Modern UI Icons:       http://modernuiicons.com/
+* EditableTextBlock:     http://www.codeproject.com/Articles/31592/Editable-TextBlock-in-WPF-for-In-place-Editing
 
 NOTES:
 

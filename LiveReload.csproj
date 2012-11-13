@@ -101,11 +101,19 @@
     <Compile Include="src\App.BundledResources.cs" />
     <Compile Include="src\App.SingleInstance.cs" />
     <Compile Include="src\App.CommandLineArgs.cs" />
+    <Compile Include="src\EditableTextBlock.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>EditableTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\ObjectRPC.WPF.cs" />
     <Compile Include="src\ObjectRPC.cs" />
     <Compile Include="src\SelectTextOnFocus.cs" />
     <Compile Include="src\TrayIconController.cs" />
     <Page Include="img\icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="src\EditableTextBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
