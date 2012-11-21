@@ -185,6 +185,8 @@ Hey! In the release we've fixed Compass compilation and added error notification
                     </Grid.RowDefinitions>
                     <TreeView x:Name="treeViewPaths" Grid.Row="0" />
                     <Button Name="buttonSetOutputFolder" Grid.Row="1" HorizontalAlignment="Right" Margin="0,10,0,0" Style="{DynamicResource SquareButtonStyle}" Width="150"> Set output folder...</Button>
+                    <Button Name="buttonAddRule"         Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Bottom" Style="{DynamicResource SquareButtonStyle}" Width="75"> Add Rule...</Button>
+                    <Button Name="buttonRemoveRule"      Grid.Row="1" HorizontalAlignment="Left" Margin="90,0,0,0" VerticalAlignment="Bottom" Style="{DynamicResource SquareButtonStyle}" Width="75"> Remove Rule...</Button>
                 </Grid>
             </TabItem>
         </TabControl>
