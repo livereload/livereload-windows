@@ -62,7 +62,7 @@ namespace ObjectRPC.WPF
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
-            entity.SendUpdate(new Dictionary<string, object> { {"click", true } });
+            entity.SendUpdate(new D{ {"click", true } });
         }
     }
 
@@ -86,7 +86,7 @@ namespace ObjectRPC.WPF
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
-            entity.SendUpdate(new Dictionary<string, object> { { "value", obj.IsChecked } });
+            entity.SendUpdate(new D{ { "value", obj.IsChecked } });
         }
     }
 
@@ -120,7 +120,7 @@ namespace ObjectRPC.WPF
             if (!isBeingChangedProgramatically)
             {
                 isBeingChangedByUser = true;
-                entity.SendUpdate(new Dictionary<string, object> { { "text", obj.Text } });
+                entity.SendUpdate(new D{ { "text", obj.Text } });
             }
         }
 
@@ -297,7 +297,7 @@ namespace ObjectRPC.WPF
         private void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (!isTreeViewUpdateInProgress)
-                entity.SendUpdate(new Dictionary<string, object> { { "selectedId", SelectedId } });
+                entity.SendUpdate(new D{ { "selectedId", SelectedId } });
         }
     }
 
