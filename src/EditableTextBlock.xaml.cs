@@ -19,6 +19,8 @@ namespace Borgstrup.EditableTextBlock
     public partial class EditableTextBlock : UserControl
     {
 
+        public event TextChangedEventHandler TextChanged;
+
         #region Constructor
 
         public EditableTextBlock()
@@ -148,13 +150,19 @@ namespace Borgstrup.EditableTextBlock
             }
             else if (e.Key == Key.Escape)
             {
-                this.IsInEditMode = false;
                 Text = oldText;
+                this.IsInEditMode = false;
                 e.Handled = true;
             }
         }
 
-        #endregion Event Handlers
+        // Invoked when annotation changes
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (this.TextChanged != null)
+                this.TextChanged(sender, e);
+        }
 
+        #endregion Event Handlers
     }
 }

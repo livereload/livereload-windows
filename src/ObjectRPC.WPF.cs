@@ -136,6 +136,7 @@ namespace ObjectRPC.WPF
         private IList<object> data;
         private bool isTreeViewUpdateInProgress = false;
         private bool isInEditMode = false;
+        private EditableTextBlock currentETB;
 
         public TreeViewFacet(Entity entity, TreeView obj)
             : base(entity, obj)
@@ -178,11 +179,32 @@ namespace ObjectRPC.WPF
                         if (etb.IsEditable)
                         {
                             etb.IsInEditMode = value;
+                            if (value && !isInEditMode) // we are starting edit mode
+                            {
+                                currentETB = etb;
+                                currentETB.TextChanged += currentETB_TextChanged;
+                                currentETB.LostFocus += currentETB_LostFocus;
+                            }
                             isInEditMode = value;
                         }
                     }
                 }
             }
+        }
+
+        void currentETB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //TODO: add facet for items; 
+            entity.SendUpdate(new D { { "#" + SelectedId, new D { { "text", currentETB.Text } } } });
+            //Console.WriteLine("#" + SelectedId);
+        }
+
+        //TODO: implement event for switching edit mode and use it instead
+        void currentETB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            currentETB.LostFocus   -= currentETB_LostFocus;
+            currentETB.TextChanged -= currentETB_TextChanged;
+            currentETB = null;
         }
 
         private void Fill(ItemCollection items, IList<object> data, string oldSelectedId, out TreeViewItem newSelectedTVI)
@@ -197,7 +219,12 @@ namespace ObjectRPC.WPF
                 bool editable = (itemData.ContainsKey("editable") ? (bool)itemData["editable"] : false);
 
                 var tvi = new TreeViewItem();
-                tvi.Header = new EditableTextBlock(text, editable);
+
+                if ((id == oldSelectedId) && isInEditMode)
+                    tvi.Header = currentETB;
+                else
+                    tvi.Header = new EditableTextBlock(text, editable);
+
                 tvi.Tag = id;
                 items.Add(tvi);
 

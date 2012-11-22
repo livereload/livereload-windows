@@ -8,6 +8,7 @@
         <DataTemplate x:Key="EditModeTemplate">
             <TextBox KeyDown="TextBox_KeyDown" Loaded="TextBox_Loaded" LostFocus="TextBox_LostFocus"
                      Text="{Binding ElementName=mainControl, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                     TextChanged="TextBox_TextChanged"
                      Margin="0" BorderThickness="1" />
         </DataTemplate>
         
