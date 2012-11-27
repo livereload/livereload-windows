@@ -28,6 +28,8 @@ namespace LiveReload
 
         public event Action<string> NodeMessageEvent;
 
+        string debugSimulatedMessage;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -104,9 +106,18 @@ namespace LiveReload
 
         private void buttonSimulateNodeEvent_Click(object sender, RoutedEventArgs e)
         {
-            string debugSimulatedMessage = Microsoft.VisualBasic.Interaction.InputBox("Simulated message from Node:");
-            if (debugSimulatedMessage != null)
+            debugSimulatedMessage = Microsoft.VisualBasic.Interaction.InputBox("Simulated message from Node:\n(F3 in main window to invoke)","",debugSimulatedMessage);
+            if (debugSimulatedMessage == "")
+                debugSimulatedMessage = null;
+        }
+
+        private void MetroWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.F3) && (debugSimulatedMessage != null))
+            {
                 this.NodeMessageEvent(debugSimulatedMessage);
+                Console.WriteLine("Simulated message: " + debugSimulatedMessage);
+            }
         }
     }
 }

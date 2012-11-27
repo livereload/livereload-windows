@@ -12,7 +12,7 @@
                         ResizeMode="CanMinimize"
                         Closing="Window_Closing"
                         StateChanged="MetroWindow_StateChanged"
-                        Loaded="MetroWindow_Loaded">
+                        Loaded="MetroWindow_Loaded" KeyDown="MetroWindow_KeyDown">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
