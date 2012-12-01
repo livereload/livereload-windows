@@ -119,5 +119,10 @@ namespace LiveReload
                 Console.WriteLine("Simulated message: " + debugSimulatedMessage);
             }
         }
+
+        private void buttonUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            InstallUpdateSyncWithInfo();
+        }
     }
 }

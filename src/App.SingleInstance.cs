@@ -36,11 +36,15 @@ namespace LiveReload
     
     public class EntryPoint
     {
+        public static bool isRestarting = false;
+        
         [STAThread]
         public static void Main(string[] args)
         {
             SingleInstanceManager manager = new SingleInstanceManager();
             manager.Run(args);
+            if (isRestarting)
+                System.Windows.Forms.Application.Restart(); //from System.Windows.Forms.dll
         }
     }
 
