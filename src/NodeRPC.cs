@@ -19,7 +19,7 @@ namespace LiveReload
         private Dispatcher dispatcher = App.Current.Dispatcher;
         private string nodeDir;
         private string backendDir;
-        private StreamWriter logWriter;
+        private TextWriter logWriter;
         private Thread nodeThread;
         private Thread stderrThread;
         private bool disposed = false;
@@ -28,7 +28,7 @@ namespace LiveReload
         public event Action         NodeCrash;
         public event Action<string> NodeMessageEvent;
 
-        public NodeRPC(string nodeDir_, string backendDir_, StreamWriter logWriter_)
+        public NodeRPC(string nodeDir_, string backendDir_, TextWriter logWriter_)
         {
             nodeDir = nodeDir_;
             backendDir = backendDir_;

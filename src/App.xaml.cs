@@ -22,7 +22,7 @@ namespace LiveReload
         private string baseDir, logDir, resourcesDir, appDataDir;
         private string localAppDataDir;
         private string extractedResourcesDir;
-        private StreamWriter logWriter;
+        private TextWriter logWriter;
         private TrayIconController trayIcon;
         private string logFile;
         private CommandLineOptions options;
@@ -64,7 +64,7 @@ namespace LiveReload
             Directory.CreateDirectory(logDir);
 
             logFile = Path.Combine(logDir, "LiveReload_" + DateTime.Now.ToString("yyyy_MM_dd_HHmmss") + ".txt");
-            logWriter = new StreamWriter(logFile);
+            logWriter = TextWriter.Synchronized(new StreamWriter(logFile));
             logWriter.WriteLine("LiveReload v" + Version + " says hi.");
             logWriter.WriteLine("OS version: " + Environment.OSVersion);
             logWriter.WriteLine("Paths:");
